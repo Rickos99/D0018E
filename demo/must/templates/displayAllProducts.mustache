@@ -1,0 +1,20 @@
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Namn</th>
+        <th>Beskrivning</th>
+        <th>Pris</th>
+        <th>Moms</th>
+        <th>Lagersaldo</th>
+    </tr>
+    {{#products}}
+    <tr>
+        <td>{{prod_id}}</td>
+        <td>{{name}}</td>
+        <td>{{description}}</td>
+        <td>{{price}}:-</td>
+        <td>{{vat}}%</td>
+        <td>{{balance}}</td>
+    </tr>
+    {{/products}}
+</table>
