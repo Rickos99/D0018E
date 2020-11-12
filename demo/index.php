@@ -1,6 +1,7 @@
 <?php
 $mysqli = new mysqli("127.0.0.1", "grupp16", "grupp16", "test"); // host, user, pass, db
 
+// från php manualen php.net/manual
 if ($mysqli -> connect_errorno) {
     echo "Error: Unable to connect to MySQL." . PHP_EOL;
     echo "Debugging errno: " . $mysqli -> connect_errno . PHP_EOL;
