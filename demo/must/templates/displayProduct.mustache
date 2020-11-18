@@ -1,0 +1,72 @@
+<html lang="sv">
+
+<header>
+    <title>Startsida</title>
+
+    {{> _head}}
+
+</header>
+
+<body>
+    {{> _navigation}}
+
+    <main class="container">
+        {{#product}}
+        <div class="row">
+            <div class="col col-12 col-md-6">
+                <img src="https://via.placeholder.com/768" alt="Produktbild" class="img-fluid">
+            </div>
+            <div class="col col-12 col-md-6">
+                <h2>{{name}}</h2>
+                <small class="text-muted">artnr. {{prod_id}}</small>
+                <p class="mt-2">
+                    <span class="material-icons text-gold">star_rate</span>
+                    <span class="material-icons text-gold">star_rate</span>
+                    <span class="material-icons text-gold">star_rate</span>
+                    <span class="material-icons text-black-50">star_rate</span>
+                    <span class="material-icons text-black-50">star_rate</span>
+                    <span class="text-muted text-align-vc">30</span>
+                </p>
+                <div class="row">
+                    <div class="col col-12 col-lg-6">
+                        {{price}} kr <small class="text-muted">(exkl. moms)</small>
+                    </div>
+                    <div class="input-group col col-12 col-lg-6">
+                        <input type="number" value="1" min="1" max="{{balance}}" step="1" class="form-control"
+                            placeholder="Antal" aria-describedby="button-addToCart">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary {{^balance}}disabled{{/balance}}" type="button"
+                                id="button-addToCart">
+                                Lägg i kundvagn
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    {{#balance}}
+                    <span class="material-icons text-success">all_inbox</span>
+                    {{/balance}}
+                    {{^balance}}
+                    <span class="material-icons text-danger">all_inbox</span>
+                    {{/balance}}
+                    <span class="text-align-vc">{{balance}} kvar</span>
+                </div>
+                <hr>
+                <p>{{description}}</p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <h3>Recensioner</h3>
+        </div>
+        {{/product}}
+        {{^product}}
+        <p>
+            Produkten gick inte att hitta!
+        </p>
+        {{/product}}
+
+    </main>
+</body>
+
+</html>

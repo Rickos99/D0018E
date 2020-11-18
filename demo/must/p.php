@@ -1,7 +1,7 @@
 <?php
 
 include "php/debugSettings.php";
-require_once "php/sql/getAllProducts.php";
+require_once "php/sql/getProduct.php";
 require_once "../../lib/Mustache/Autoloader.php";
 
 Mustache_Autoloader::register();
@@ -9,19 +9,13 @@ $mustache = new Mustache_Engine(array(
     "loader" => new Mustache_Loader_FilesystemLoader(__DIR__."/templates"),
     "partials_loader" => new Mustache_Loader_FilesystemLoader(__DIR__."/templates/shared"),
 ));
-$template = $mustache -> loadTemplate("displayAllProducts.mustache");
+$template = $mustache -> loadTemplate("displayProduct.mustache");
 
-$user = new stdClass();
-$user -> name = "John Doe";
-$user -> adress = "";
-$user -> phone = "0701234567";
-$user -> email = "john@doe.com";
-
-$cart = new stdClass();
-$cart -> products = ["Tandkräm"];
-$cart -> items = count($cart -> products);
-
-echo $template->render(array("products" => getAllProducts(), "user" => $user, "cart" => $cart));
+$productID = $_GET["pid"];
+if($productID == NULL){
+    die ("<code>pid</code> kan inte vara NULL");
+}
+echo $template->render(array("product" => getProduct($productID), "user" => $user, "cart" => $cart));
 
 if($debugIsEnabled){
     echo "<div class=\"container\">";
@@ -32,7 +26,7 @@ if($debugIsEnabled){
     echo "templates: " . __DIR__ . "/templates" . PHP_EOL;
     echo "-----" . PHP_EOL;
     echo "var_dump(getAllProducts()) = ";
-    var_dump(getAllProducts());
+    var_dump(getProduct($productID));
     echo "</pre>";
 
     echo "</div>";

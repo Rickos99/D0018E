@@ -1,20 +1,55 @@
-<table>
-    <tr>
-        <th>Id</th>
-        <th>Namn</th>
-        <th>Beskrivning</th>
-        <th>Pris</th>
-        <th>Moms</th>
-        <th>Lagersaldo</th>
-    </tr>
-    {{#products}}
-    <tr>
-        <td>{{prod_id}}</td>
-        <td>{{name}}</td>
-        <td>{{description}}</td>
-        <td>{{price}}:-</td>
-        <td>{{vat}}%</td>
-        <td>{{balance}}</td>
-    </tr>
-    {{/products}}
-</table>
+<html lang="sv">
+
+<header>
+    <title>Startsida</title>
+
+    {{> _head}}
+
+</header>
+
+<body>
+    {{> _navigation}}
+
+    <main class="container">
+        <h1>Produkter</h1>
+        <div class="container">
+            <div class="row">
+                {{#products}}
+                <div class="card m-1" style="width: 16rem;">
+                    <img src="https://via.placeholder.com/280" class="card-img-top" alt="img/{{prod_id}}.png">
+                    <div class="card-body">
+                        <a href="p.php?pid={{prod_id}}" class="text-body">
+                            <h5 class="card-title">{{name}}</h5>
+                        </a>
+                        <p class="card-text">{{priceInclVat}} kr</p>
+                        <p class="card-text">
+                            <span class="material-icons text-gold">star_rate</span>
+                            <span class="material-icons text-gold">star_rate</span>
+                            <span class="material-icons text-gold">star_rate</span>
+                            <span class="material-icons text-black-50">star_rate</span>
+                            <span class="material-icons text-black-50">star_rate</span>
+                            <span class="text-muted text-align-vc">30</span>
+                        </p>
+                        <p class="card-text">
+                            {{#balance}}
+                            <span class="material-icons text-success">all_inbox</span>
+                            {{/balance}}
+                            {{^balance}}
+                            <span class="material-icons text-danger">all_inbox</span>
+                            {{/balance}}
+
+                            <span class="text-align-vc">{{balance}} kvar</span>
+
+                            <button type="button"
+                                class="btn btn-outline-primary btn-sm float-right {{^balance}}disabled{{/balance}}">Lägg
+                                i kundvagn</button>
+                        </p>
+                    </div>
+                </div>
+                {{/products}}
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

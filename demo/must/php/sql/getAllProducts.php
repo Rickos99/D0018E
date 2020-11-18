@@ -8,6 +8,7 @@ function getAllProducts() {
     $returnValue = array();
     if ($result = $mysqli -> query($sql)) {
         while ($obj = $result -> fetch_object()) {
+            $obj -> priceInclVat = (1+$obj -> vat/100)*$obj -> price;
             array_push($returnValue, $obj);
         }
         $result -> free_result();

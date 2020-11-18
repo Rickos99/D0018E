@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+        <a class="navbar-brand" href="#/">Store</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+
+            <ul class="navbar-nav">
+                {{#user}}
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="#Account/Cart.php">Kundvagn ({{cart.items}})</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="#Account/Me.php">Mitt konto</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="#Account/Logout.php">Logga ut</a>
+                </li>
+                {{/user}}
+                {{^user}}
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="#Account/Register.php">Registrera</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="#Account/Login.php">Logga in</a>
+                </li>
+                {{/user}}
+            </ul>
+
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="index.php">Produkter</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
