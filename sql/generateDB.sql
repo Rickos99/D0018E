@@ -37,3 +37,19 @@ CREATE TABLE `ORDER_ITEMS`(
     FOREIGN KEY(order_id) REFERENCES ORDERS(order_id),
     FOREIGN KEY(product_id) REFERENCES PRODUCTS(prod_id)
 );
+
+CREATE TABLE `SHOPPING_CARTS`(
+	`cart_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `uid` int UNSIGNED,
+    `changed_at` datetime NOT NULL,
+    FOREIGN KEY(uid) REFERENCES USERS(uid)
+);
+
+CREATE TABLE `CART_ITEMS`(
+	`items_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `product_id` int UNSIGNED,
+    `cart_id` int UNSIGNED,
+    `quantity` int UNSIGNED NOT NULL, 
+    FOREIGN KEY(cart_id) REFERENCES SHOPPING_CARTS(cart_id),
+    FOREIGN KEY(product_id) REFERENCES PRODUCTS(prod_id)
+);
