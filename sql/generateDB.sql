@@ -26,3 +26,14 @@ CREATE TABLE `ORDERS` (
     `created_at` datetime NOT NULL,
     FOREIGN KEY(uid) REFERENCES USERS(uid)
 );
+
+CREATE TABLE `ORDER_ITEMS`(
+	`order_id` int UNSIGNED,
+    `product_id` int UNSIGNED,
+    `quantity` int UNSIGNED NOT NULL,
+    `price` int UNSIGNED NOT NULL,
+    `vat` int UNSIGNED NOT NULL,
+    `discount` int UNSIGNED NOT NULL,
+    FOREIGN KEY(order_id) REFERENCES ORDERS(order_id),
+    FOREIGN KEY(product_id) REFERENCES PRODUCTS(prod_id)
+);
