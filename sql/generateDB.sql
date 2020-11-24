@@ -2,8 +2,8 @@ CREATE SCHEMA `STORE` DEFAULT CHARACTER SET utf8;
 USE `STORE`;
 
 CREATE TABLE `PRODUCTS` (
-	`prod_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	`name` varchar(256) NOT NULL,
+    `prod_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `name` varchar(256) NOT NULL,
     `description` text,
     `price` float NOT NULL,
     `vat` float NOT NULL,
@@ -11,8 +11,8 @@ CREATE TABLE `PRODUCTS` (
 );
 
 CREATE TABLE `USERS` (
-	`uid` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	`full_name` varchar(128),
+    `uid` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `full_name` varchar(128),
     `hashed_pwd` varchar(255) NOT NULL,
     `address` varchar(256),
     `phone` varchar(20),
@@ -20,7 +20,7 @@ CREATE TABLE `USERS` (
 );
 
 CREATE TABLE `ORDERS` (
-	`order_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `order_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `uid` int UNSIGNED,
     `status` text,
     `created_at` datetime NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE `ORDERS` (
 );
 
 CREATE TABLE `ORDER_ITEMS`(
-	`order_id` int UNSIGNED,
+    `order_id` int UNSIGNED,
     `product_id` int UNSIGNED,
     `quantity` int UNSIGNED NOT NULL,
     `price` int UNSIGNED NOT NULL,
@@ -39,14 +39,14 @@ CREATE TABLE `ORDER_ITEMS`(
 );
 
 CREATE TABLE `SHOPPING_CARTS`(
-	`cart_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `cart_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `uid` int UNSIGNED UNIQUE,
     `changed_at` datetime NOT NULL,
     FOREIGN KEY(uid) REFERENCES USERS(uid)
 );
 
 CREATE TABLE `CART_ITEMS`(
-	`items_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `items_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     `product_id` int UNSIGNED,
     `cart_id` int UNSIGNED,
     `quantity` int UNSIGNED NOT NULL, 
