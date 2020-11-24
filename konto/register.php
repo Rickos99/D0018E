@@ -11,12 +11,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $sql = "SELECT email FROM USERS WHERE email = ?";
 
         if($stmt = $mysqli->prepare($sql)){
+            
             $stmt->bind_param("s", $param_email);
     
-            $param_email = "'" . trim($_POST["email"] . "'");
+            $param_email = trim($_POST["email"]);
             
             //FEL VID DET HÄR EXECUTEN
-            if($stmt->execute($sql)){
+            if($stmt->execute()){
                 $stmt->store_result($res);
     
                 if($stmt->num_rows($res) == 1){
@@ -25,7 +26,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     $email = trim($_POST["email"]);
                 }
             } else{
-                echo "Oops! Something went wrong. Please try again later." . $mysqli->error;
+                echo "Oops! Something went wrong. Please try again later. " . $mysqli->error;
                 $email_err = "What the fuck";
             }
     
@@ -75,10 +76,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->bind_param("sssss", $param_fullname, $param_password, $param_address, $param_phone, $param_email);
 
             $param_fullname = $name;
-            $param_password = $password;
+            $param_password = password_hash($password, PASSWORD_DEFAULT);
             $param_address = $address;
             $param_phone = $phone;
-            $param_email = "'" . $email . "'";
+            $param_email = $email;
 
             if($stmt->execute()){
                 header("location: login.php");
