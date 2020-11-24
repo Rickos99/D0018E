@@ -40,7 +40,7 @@ CREATE TABLE `ORDER_ITEMS`(
 
 CREATE TABLE `SHOPPING_CARTS`(
 	`cart_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    `uid` int UNSIGNED,
+    `uid` int UNSIGNED UNIQUE,
     `changed_at` datetime NOT NULL,
     FOREIGN KEY(uid) REFERENCES USERS(uid)
 );
