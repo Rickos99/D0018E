@@ -1,6 +1,7 @@
 <?php
 
 include "php/debugSettings.php";
+require_once "php/userSession.php";
 require_once "php/sql/getProduct.php";
 require_once "../../lib/Mustache/Autoloader.php";
 
@@ -15,6 +16,17 @@ $productID = $_GET["pid"];
 if($productID == NULL){
     die ("<code>pid</code> kan inte vara NULL");
 }
+
+$user = new UserSession();
+if($user -> loggedIn){
+    $user -> name = $_SESSION["fullname"];
+    $user -> adress = "";
+    $user -> phone = "";
+    $user -> email = $_SESSION["email"];
+} else {
+    UserSession::redirectToLoginPage($_SERVER['REQUEST_URI']);
+}
+
 echo $template->render(array("product" => getProduct($productID), "user" => $user, "cart" => $cart));
 
 if($debugIsEnabled){

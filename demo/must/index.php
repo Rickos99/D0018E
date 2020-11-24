@@ -1,6 +1,7 @@
 <?php
 
 include "php/debugSettings.php";
+require_once "php/userSession.php";
 require_once "php/sql/getAllProducts.php";
 require_once "../../lib/Mustache/Autoloader.php";
 
@@ -11,11 +12,15 @@ $mustache = new Mustache_Engine(array(
 ));
 $template = $mustache -> loadTemplate("displayAllProducts.mustache");
 
-$user = new stdClass();
-$user -> name = "John Doe";
-$user -> adress = "";
-$user -> phone = "0701234567";
-$user -> email = "john@doe.com";
+$user = new UserSession();
+if($user -> loggedIn){
+    $user -> name = $_SESSION["fullname"];
+    $user -> adress = "";
+    $user -> phone = "";
+    $user -> email = $_SESSION["email"];
+} else {
+    UserSession::redirectToLoginPage($_SERVER['REQUEST_URI']);
+}
 
 $cart = new stdClass();
 $cart -> products = ["Tandkräm"];
@@ -24,16 +29,6 @@ $cart -> items = count($cart -> products);
 echo $template->render(array("products" => getAllProducts(), "user" => $user, "cart" => $cart));
 
 if($debugIsEnabled){
-    echo "<div class=\"container\">";
-    
-    echo "<hr>";
-    echo "<pre>";
-    echo "file: " . __FILE__ . PHP_EOL;
-    echo "templates: " . __DIR__ . "/templates" . PHP_EOL;
-    echo "-----" . PHP_EOL;
-    echo "var_dump(getAllProducts()) = ";
-    var_dump(getAllProducts());
-    echo "</pre>";
-
-    echo "</div>";
+    echo debug_v( __FILE__, 'path to file');
+    echo debug_v(__DIR__ . "/templates", 'path to templates');
 }

@@ -8,7 +8,7 @@
         <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
 
             <ul class="navbar-nav">
-                {{#user}}
+                {{#user.loggedIn}}
                 <li class="nav-item">
                     <a class="nav-link text-dark" href="#Account/Cart.php">Kundvagn ({{cart.items}})</a>
                 </li>
@@ -16,17 +16,17 @@
                     <a class="nav-link text-dark" href="#Account/Me.php">Mitt konto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="#Account/Logout.php">Logga ut</a>
+                    <a class="nav-link text-dark" href="/konto/logout.php">Logga ut</a>
                 </li>
-                {{/user}}
-                {{^user}}
+                {{/user.loggedIn}}
+                {{^user.loggedIn}}
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="#Account/Register.php">Registrera</a>
+                    <a class="nav-link text-dark" href="/konto/register.php">Registrera</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="#Account/Login.php">Logga in</a>
+                    <a class="nav-link text-dark" href="/konto/login.php">Logga in</a>
                 </li>
-                {{/user}}
+                {{/user.loggedIn}}
             </ul>
 
             <ul class="navbar-nav flex-grow-1">
