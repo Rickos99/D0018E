@@ -3,7 +3,7 @@
 include "php/debugSettings.php";
 require_once "php/userSession.php";
 require_once "php/sql/getProduct.php";
-require_once "../../lib/Mustache/Autoloader.php";
+require_once "lib/Mustache/Autoloader.php";
 
 Mustache_Autoloader::register();
 $mustache = new Mustache_Engine(array(
