@@ -11,7 +11,15 @@ function debug_v($var, string $name){
     echo '<div style="background: lightgrey; width: fit-content; padding: 10px; margin: 5px;">' . PHP_EOL;
     echo "<code>var_dump($name) = </code>" . PHP_EOL;
     echo '<pre>' . PHP_EOL;
-    $str = var_dump($var);
+    var_dump($var);
     echo '</pre>' . PHP_EOL;
     echo '</div>' . PHP_EOL;
+}
+
+function pprint(string $str) {
+    echo '<div style="background: lightgrey; width: fit-content; padding: 10px; margin: 5px;">' . PHP_EOL;
+    echo '<code>' . PHP_EOL;
+    echo $str;
+    echo '</code>' . PHP_EOL;
+    echo '</div>';
 }
