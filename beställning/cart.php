@@ -8,8 +8,6 @@ $userSession = new userSession();
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Display all products in cart
 
-    $cartItems = $userSession->cart->getAllItems();
-
     Mustache_Autoloader::register();
     $mustache = new Mustache_Engine(array(
         "loader" => new Mustache_Loader_FilesystemLoader(__DIR__."/../templates"),

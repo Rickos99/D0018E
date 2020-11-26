@@ -18,8 +18,3 @@ if(!$user -> loggedIn){
 }
 
 echo $template->render(array("products" => getAllProducts(), "user" => $user));
-
-if($debugIsEnabled){
-    echo debug_v( __FILE__, 'path to file');
-    echo debug_v(__DIR__ . "/templates", 'path to templates');
-}

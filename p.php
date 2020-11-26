@@ -23,18 +23,3 @@ if(!$user -> loggedIn){
 }
 
 echo $template->render(array("product" => getProduct($productID), "user" => $user));
-
-if($debugIsEnabled){
-    echo "<div class=\"container\">";
-    
-    echo "<hr>";
-    echo "<pre>";
-    echo "file: " . __FILE__ . PHP_EOL;
-    echo "templates: " . __DIR__ . "/templates" . PHP_EOL;
-    echo "-----" . PHP_EOL;
-    echo "var_dump(getAllProducts()) = ";
-    var_dump(getProduct($productID));
-    echo "</pre>";
-
-    echo "</div>";
-}
