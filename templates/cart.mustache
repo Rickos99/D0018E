@@ -1,0 +1,70 @@
+<html lang="sv">
+
+<header>
+    <title>Startsida</title>
+
+    {{> _head}}
+
+</header>
+
+<body>
+    {{> _navigation}}
+
+    <main class="container">
+        <div class="container">
+            {{#user.cart.numberOfItems}}
+                <h1>Kundvagn</h1>
+                {{#cartItems}}
+                    <div>
+                        <hr>
+                        <div>
+                            <p>
+                                <h4>
+                                    <a href="/p.php?pid={{pid}}" class="text-decoration-none text-dark">{{name}}</a>
+                                </h4>
+                                <small class="text-muted">artnr. {{pid}}</small>
+                            </p>
+                            <p>Antal: {{quantity}}</p>
+                        </div>
+                        <form action="" method="POST" autocomplete="off">
+                            <input type="hidden" name="action" value="DELETE">
+                            <input type="hidden" name="pid" value="{{pid}}">
+                            <button class="btn btn-outline-secondary btn-sm" type="submit">Ta bort</button>
+                        </form>
+                    </div>
+                {{/cartItems}}
+                <hr>
+                {{#priceSummary}}
+                    <table class="table table-borderless table-sm" style="max-width: 350px;">
+                        <tr>
+                            <th>Totalt</th>
+                            <td class="text-right"><span>{{totalpriceWithVat}} kr</span></td>
+                        </tr>
+                        <tr>
+                            <td class="md-1">{{user.cart.numberOfItems}} produkter </td>
+                            <td class="text-right">{{totalPrice}} kr</td>
+                        </tr>
+                        <tr>
+                            <td>Frakt </td>
+                            <td class="text-right">0 kr</td>
+                        </tr>
+                        <tr>
+                            <td>Varav moms </td>
+                            <td class="text-right">{{totalVat}} kr</td>
+                        </tr>
+                    </table>
+                    <form action="payment.php">
+                        <button class="btn btn-primary" type="submit">Gå till kassan</button>
+                    </form>
+                {{/priceSummary}}
+            {{/user.cart.numberOfItems}}
+            {{^user.cart.numberOfItems}}
+                <div>
+                    <h4>Din kundvagn är tom</h4>
+                </div>
+            {{/user.cart.numberOfItems}}
+        </div>
+    </main>
+</body>
+
+</html>

@@ -31,16 +31,20 @@
                     <div class="col col-12 col-lg-6">
                         {{price}} kr <small class="text-muted">(exkl. moms)</small>
                     </div>
-                    <div class="input-group col col-12 col-lg-6">
-                        <input type="number" value="1" min="1" max="{{balance}}" step="1" class="form-control"
-                            placeholder="Antal" aria-describedby="button-addToCart">
-                        <div class="input-group-append">
-                            <button class="btn btn-outline-primary {{^balance}}disabled{{/balance}}" type="button"
-                                id="button-addToCart">
-                                Lägg i kundvagn
-                            </button>
+                    <form action="/beställning/cart.php" method="POST" class="col col-12 col-lg-6">
+                        <input type="hidden" value="PUT" name="action">
+                        <input type="hidden" value="{{prod_id}}" name="pid">
+                        <div class="input-group">
+                            <input name="quantity" type="number" value="1" min="1" max="{{balance}}" step="1"
+                                class="form-control" placeholder="Antal" aria-describedby="button-addToCart">
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-outline-primary {{^balance}}disabled{{/balance}}"
+                                    id="button-addToCart">
+                                    Lägg i kundvagn
+                                </button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <div>
                     {{#balance}}
@@ -58,7 +62,7 @@
         <hr>
         <h3>Recensioner</h3>
         <div class="row">
-            
+
         </div>
         {{/product}}
         {{^product}}

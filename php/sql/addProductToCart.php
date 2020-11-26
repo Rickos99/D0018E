@@ -20,14 +20,15 @@ function addProductToCart(int $uid, int $pid, int $quantity){
         $stmtCreateCart = $mysqli -> prepare($sql) or die("(".__LINE__ .") Error: " . $mysqli -> error);
         $stmtCreateCart -> bind_param("is", $uid, $dateTimeNow);
         $stmtCreateCart -> execute();
+        $stmtCreateCart -> free_result();
         $mysqli->close();
 
         return addProductToCart($uid, $pid, $quantity);
     }
 
-    $sql = "SELECT quantity FROM `STORE`.`CART_ITEMS` WHERE cart_id = ?";
+    $sql = "SELECT quantity FROM `STORE`.`CART_ITEMS` WHERE cart_id = ? AND product_id = ?";
     $stmtGetProduct = $mysqli -> prepare($sql);
-    $stmtGetProduct -> bind_param("i", $cartId);
+    $stmtGetProduct -> bind_param("ii", $cartId, $pid);
     $stmtGetProduct -> execute();
     $stmtGetProduct -> store_result();
 

@@ -18,16 +18,11 @@ if($productID == NULL){
 }
 
 $user = new UserSession();
-if($user -> loggedIn){
-    $user -> name = $_SESSION["fullname"];
-    $user -> adress = "";
-    $user -> phone = "";
-    $user -> email = $_SESSION["email"];
-} else {
+if(!$user -> loggedIn){
     UserSession::redirectToLoginPage($_SERVER['REQUEST_URI']);
 }
 
-echo $template->render(array("product" => getProduct($productID), "user" => $user, "cart" => $cart));
+echo $template->render(array("product" => getProduct($productID), "user" => $user));
 
 if($debugIsEnabled){
     echo "<div class=\"container\">";

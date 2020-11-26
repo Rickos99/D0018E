@@ -13,20 +13,11 @@ $mustache = new Mustache_Engine(array(
 $template = $mustache -> loadTemplate("displayAllProducts.mustache");
 
 $user = new UserSession();
-if($user -> loggedIn){
-    $user -> name = $_SESSION["fullname"];
-    $user -> adress = "";
-    $user -> phone = "";
-    $user -> email = $_SESSION["email"];
-} else {
-    UserSession::redirectToLoginPage($_SERVER['REQUEST_URI']);
+if(!$user -> loggedIn){
+    UserSession::redirectToLoginPage();
 }
 
-$cart = new stdClass();
-$cart -> products = ["Tandkräm"];
-$cart -> items = count($cart -> products);
-
-echo $template->render(array("products" => getAllProducts(), "user" => $user, "cart" => $cart));
+echo $template->render(array("products" => getAllProducts(), "user" => $user));
 
 if($debugIsEnabled){
     echo debug_v( __FILE__, 'path to file');

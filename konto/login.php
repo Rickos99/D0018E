@@ -1,4 +1,6 @@
 <?php
+
+include "../php/debugSettings.php";
  
 session_start();
 

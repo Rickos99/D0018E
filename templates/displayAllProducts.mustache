@@ -39,10 +39,14 @@
                             {{/balance}}
 
                             <span class="text-align-vc">{{balance}} kvar</span>
-
-                            <button type="button"
+                        <form action="/beställning/cart.php" method="POST">
+                            <input type="hidden" value="PUT" name="action">
+                            <input type="hidden" value="{{prod_id}}" name="pid">
+                            <input type="hidden" value="1" name="quantity">
+                            <button type="submit"
                                 class="btn btn-outline-primary btn-sm float-right {{^balance}}disabled{{/balance}}">Lägg
                                 i kundvagn</button>
+                        </form>
                         </p>
                     </div>
                 </div>
