@@ -1,7 +1,7 @@
 <?php
 
 $mysqli = new mysqli("127.0.0.1", "grupp16", "grupp16", "STORE");
- 
+$mysqli->set_charset("utf8");
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
@@ -16,7 +16,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
             $param_email = trim($_POST["email"]);
             
-            //FEL VID DET HÄR EXECUTEN
             if($stmt->execute()){
                 $stmt->store_result($res);
     

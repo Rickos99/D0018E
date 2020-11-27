@@ -1,6 +1,4 @@
 <?php
-
-include "../php/debugSettings.php";
  
 session_start();
 
@@ -10,7 +8,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin" === true]){
 }
 
 $mysqli = new mysqli("127.0.0.1", "grupp16", "grupp16", "STORE");
-
+$mysqli->set_charset("utf8");
 $email = $password = "";
 $email_err = $password_err = "";
 
