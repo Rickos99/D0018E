@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         UserSession::redirectToLoginPage();
     }
     
-    echo $template->render(array("cartItems" => $user->cart->items, "user" => $user, "priceSummary" => $user->cart->calculatePriceSummary()));
+    echo $template->render(array("cartItems" => $user->cart->items, "user" => $user));
     exit();
 }
 

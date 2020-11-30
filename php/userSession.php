@@ -33,11 +33,13 @@ class Cart {
     private int $uid;
     public int $numberOfItems;
     public array $items;
+    public object $priceSummary;
 
     function __construct($uid){
         $this -> uid = $uid;
         $this -> items = $this->getAllItems();
-        $this -> numberOfItems = count($this->items);
+        $this -> numberOfItems = $this->numberOfItems();
+        $this -> priceSummary = $this->calculatePriceSummary();
     }
 
     function addItem($pid, $quantity){
@@ -59,14 +61,19 @@ class Cart {
         $priceSummary -> totalVat = 0;
 
         foreach ($this->items as $item) {
-            $totalPrice = $item->price * $item->quantity;
-            $totalVat = $totalPrice * ($item->vat/100);
-
-            $priceSummary -> totalpriceWithVat += $totalPrice + $totalVat;
-            $priceSummary -> totalPrice += $totalPrice;
-            $priceSummary -> totalVat += $totalVat;
+            $priceSummary -> totalPriceWithVat += $item->totalPriceWithVat;
+            $priceSummary -> totalPriceNoVat += $item->totalPriceNoVat;
+            $priceSummary -> totalVat += $item->totalPriceWithVat - $item->totalPriceNoVat;
         }
 
         return $priceSummary;
+    }
+
+    function numberOfItems() : int{
+        $nItems = 0;
+        foreach ($this->items as $item) {
+            $nItems += $item->quantity;
+        }
+        return $nItems;
     }
 }
