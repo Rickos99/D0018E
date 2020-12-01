@@ -10,15 +10,22 @@ class UserSession {
     public int $role;
     public Cart $cart;
 
-    function __construct(bool $isSignInRequired = true, int $requiredRole = 0){
+    function __construct(bool $isSignInRequired = true, array $allowedRolesOnPage = []){
         session_start();
         $this -> loggedIn = isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true;
         if($isSignInRequired && !$this -> loggedIn){
             UserSession::redirectToLoginPage();
             exit();
         }
+        
         $this -> uid = (int)$_SESSION["uid"];
         $this -> role = (int)$_SESSION["userRole"];
+
+        if(!in_array($this->role, $allowedRolesOnPage, true)){
+            header("HTTP/1.1 403 Forbidden");
+            exit();
+        }
+
         $this -> cart = new Cart($this->uid);
     }
     
