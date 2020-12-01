@@ -4,7 +4,7 @@ include "../php/debugSettings.php";
 require_once "../php/userSession.php";
 require_once "../lib/Mustache/Autoloader.php";
 
-$userSession = new userSession();
+$user = new userSession(true, [0]);
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Display all products in cart
 
@@ -14,11 +14,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         "partials_loader" => new Mustache_Loader_FilesystemLoader(__DIR__."/../templates/shared"),
     ));
     $template = $mustache -> loadTemplate("cart.mustache");
-
-    $user = new UserSession();
-    if(!$user -> loggedIn){
-        UserSession::redirectToLoginPage();
-    }
     
     echo $template->render(array("cartItems" => $user->cart->items, "user" => $user));
     exit();

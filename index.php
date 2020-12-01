@@ -12,9 +12,6 @@ $mustache = new Mustache_Engine(array(
 ));
 $template = $mustache -> loadTemplate("displayAllProducts.mustache");
 
-$user = new UserSession();
-if(!$user -> loggedIn){
-    UserSession::redirectToLoginPage();
-}
+$user = new UserSession(true, [0]);
 
 echo $template->render(array("products" => getAllProducts(), "user" => $user));

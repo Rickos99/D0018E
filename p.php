@@ -17,9 +17,6 @@ if($productID == NULL){
     die ("<code>pid</code> kan inte vara NULL");
 }
 
-$user = new UserSession();
-if(!$user -> loggedIn){
-    UserSession::redirectToLoginPage($_SERVER['REQUEST_URI']);
-}
+$user = new UserSession(true, [0]);
 
 echo $template->render(array("product" => getProduct($productID), "user" => $user));
