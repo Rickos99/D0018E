@@ -46,9 +46,10 @@ CREATE TABLE `SHOPPING_CARTS`(
 );
 
 CREATE TABLE `CART_ITEMS`(
-    `product_id` int UNSIGNED UNIQUE NOT NULL,
-    `cart_id` int UNSIGNED  NOT NULL,
-    `quantity` int UNSIGNED NOT NULL, 
+    `product_id` int UNSIGNED NOT NULL,
+    `cart_id` int UNSIGNED NOT NULL,
+    `quantity` int UNSIGNED NOT NULL,
     FOREIGN KEY(cart_id) REFERENCES SHOPPING_CARTS(cart_id),
-    FOREIGN KEY(product_id) REFERENCES PRODUCTS(prod_id)
+    FOREIGN KEY(product_id) REFERENCES PRODUCTS(prod_id),
+    CONSTRAINT PK_CartItem PRIMARY KEY (product_id, cart_id)
 );
