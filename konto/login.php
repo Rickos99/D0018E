@@ -3,7 +3,7 @@
 session_start();
 
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin" === true]){
-    header("location: ../demo/must");
+    header("location: /");
     exit;
 }
 
@@ -27,7 +27,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     if(empty($email_err) && empty($password_err)){
-        $sql = "SELECT full_name, email, hashed_pwd FROM USERS WHERE email = ?";
+        $sql = "SELECT full_name, email, hashed_pwd, `uid`, `role` FROM USERS WHERE email = ?";
         
         if($stmt = $mysqli->prepare($sql)){
             $param_email = $email;
@@ -38,7 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 
                 if($stmt->num_rows == 1){
                     
-                    $stmt->bind_result($full_name, $email, $hashed_password);
+                    $stmt->bind_result($full_name, $email, $hashed_password, $uid, $role);
                     
                     if($stmt->fetch()){
                         
@@ -49,8 +49,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["loggedin"] = true;
                             $_SESSION["fullname"] = $full_name;
                             $_SESSION["email"] = $email;
+                            $_SESSION["uid"] = $uid;
+                            $_SESSION["userRole"] = $role;
                             
-                            header("location: ../demo/must");
+                            header("location: /");
                         } else{
                             $password_err = "Incorrect password";
                             echo "Error in password";

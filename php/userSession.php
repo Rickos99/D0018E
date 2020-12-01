@@ -7,16 +7,18 @@ require_once "sql/getProductsFromCart.php";
 class UserSession {
     public bool $loggedIn;
     public int $uid;
+    public int $role;
     public Cart $cart;
 
-    function __construct(){
-        // Initialize the session
+    function __construct(bool $isSignInRequired = true, int $requiredRole = 0){
         session_start();
         $this -> loggedIn = isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true;
-        if(!$this -> loggedIn){
-            return;
+        if($isSignInRequired && !$this -> loggedIn){
+            UserSession::redirectToLoginPage();
+            exit();
         }
-        $this -> uid = 8;//(int)$_SESSION["uid"];
+        $this -> uid = (int)$_SESSION["uid"];
+        $this -> role = (int)$_SESSION["userRole"];
         $this -> cart = new Cart($this->uid);
     }
     
