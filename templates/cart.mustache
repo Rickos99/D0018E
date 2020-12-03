@@ -12,81 +12,88 @@
 
     <main class="container">
         <div class="container">
-            {{#user.cart.numberOfItems}}
-                <h1>Kundvagn</h1>
-                {{#cartItems}}
-                    <hr>
-                    <form action="" method="POST" autocomplete="off" class="clearfix">
-                        <input type="hidden" name="action" value="DELETE">
-                        <input type="hidden" name="pid" value="{{pid}}">
-                        <button class="btn btn-light btn-sm float-right" type="submit">
-                            <span class="material-icons text-muted p-1">delete</span>
-                        </button>
-                    </form>
-                    <div class="row justify-content-center align-items-center" style="position: relative;top: -35px;">
-                        <div class="col col-12 col-sm-5 col-md-4 col-lg-3">
-                            <picture>
-                                <img src="https://via.placeholder.com/200" alt="Produktbild" class="img-fluid d-block mx-auto" style="max-width: 200px; max-height: 200px;">
-                            </picture>
-                        </div>
-                        <div class="col col-12 col-sm-7 col-md-8 col-lg-9">
-                            <div>
-                                <br>
-                                <div class="mb-1">
-                                    <h4>
-                                        <a href="/p.php?pid={{pid}}" class="text-decoration-none text-dark">{{name}}</a>
-                                    </h4>
-                                    <small class="text-muted">artnr. {{pid}}</small>
-                                </div>
-                                <form action="" method="POST" autocomplete="off" style="max-width: 200px;">
-                                    <input type="hidden" name="action" value="PUT">
-                                    <input type="hidden" name="pid" value="{{pid}}">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <label class="input-group-text" for="input-quantity_{{pid}}">Antal:</label>
-                                        </div>
-                                        <input name="quantity" type="number" defaultValue="{{quantity}}" value="{{quantity}}" min="1" max="{{balance}}" step="1" 
-                                        class="form-control quantity-input" placeholder="Antal" id="input-quantity_{{pid}}" aria-describedby="button-saveQuantity_{{pid}}">
-                                        <div class="input-group-append">
-                                            <button type="submit" class="btn btn-outline-primary btn-sm" style="display: none;" id="button-saveQuantity_{{pid}}">Spara</button>
-                                        </div>
+            {{#user.loggedIn}}
+                {{#user.cart.numberOfItems}}
+                    <h1>Kundvagn</h1>
+                    {{#cartItems}}
+                        <hr>
+                        <form action="" method="POST" autocomplete="off" class="clearfix">
+                            <input type="hidden" name="action" value="DELETE">
+                            <input type="hidden" name="pid" value="{{pid}}">
+                            <button class="btn btn-light btn-sm float-right" type="submit">
+                                <span class="material-icons text-muted p-1">delete</span>
+                            </button>
+                        </form>
+                        <div class="row justify-content-center align-items-center" style="position: relative;top: -35px;">
+                            <div class="col col-12 col-sm-5 col-md-4 col-lg-3">
+                                <picture>
+                                    <img src="https://via.placeholder.com/200" alt="Produktbild" class="img-fluid d-block mx-auto" style="max-width: 200px; max-height: 200px;">
+                                </picture>
+                            </div>
+                            <div class="col col-12 col-sm-7 col-md-8 col-lg-9">
+                                <div>
+                                    <br>
+                                    <div class="mb-1">
+                                        <h4>
+                                            <a href="/p.php?pid={{pid}}" class="text-decoration-none text-dark">{{name}}</a>
+                                        </h4>
+                                        <small class="text-muted">artnr. {{pid}}</small>
                                     </div>
-                                </form> 
-                                <p style="font-size: 1.5rem;">
-                                    {{totalPriceWithVat}} kr
-                                </p>
+                                    <form action="" method="POST" autocomplete="off" style="max-width: 200px;">
+                                        <input type="hidden" name="action" value="PUT">
+                                        <input type="hidden" name="pid" value="{{pid}}">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="input-quantity_{{pid}}">Antal:</label>
+                                            </div>
+                                            <input name="quantity" type="number" defaultValue="{{quantity}}" value="{{quantity}}" min="0" max="{{balance}}" step="1" 
+                                            class="form-control quantity-input" placeholder="Antal" id="input-quantity_{{pid}}" aria-describedby="button-saveQuantity_{{pid}}">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-outline-primary btn-sm" style="display: none;" id="button-saveQuantity_{{pid}}">Spara</button>
+                                            </div>
+                                        </div>
+                                    </form> 
+                                    <p style="font-size: 1.5rem;">
+                                        {{totalPriceWithVat}} kr
+                                    </p>
+                                </div>
                             </div>
                         </div>
+                    {{/cartItems}}
+                    <hr>
+                    <table class="table table-borderless table-sm" style="max-width: 350px;">
+                        <tr>
+                            <th>Totalt</th>
+                            <td class="text-right"><span>{{user.cart.priceSummary.totalPriceWithVat}} kr</span></td>
+                        </tr>
+                        <tr>
+                            <td class="md-1">{{user.cart.numberOfItems}} produkter </td>
+                            <td class="text-right">{{user.cart.priceSummary.totalPriceNoVat}} kr</td>
+                        </tr>
+                        <tr>
+                            <td>Frakt </td>
+                            <td class="text-right">0 kr</td>
+                        </tr>
+                        <tr>
+                            <td>Varav moms </td>
+                            <td class="text-right">{{user.cart.priceSummary.totalVat}} kr</td>
+                        </tr>
+                    </table>
+                    <form action="payment.php">
+                        <button class="btn btn-primary" type="submit">Gå till kassan</button>
+                    </form>
+                {{/user.cart.numberOfItems}}
+                {{^user.cart.numberOfItems}}
+                    <div>
+                        <h4>Din kundvagn är tom</h4>
                     </div>
-                {{/cartItems}}
-                <hr>
-                <table class="table table-borderless table-sm" style="max-width: 350px;">
-                    <tr>
-                        <th>Totalt</th>
-                        <td class="text-right"><span>{{user.cart.priceSummary.totalPriceWithVat}} kr</span></td>
-                    </tr>
-                    <tr>
-                        <td class="md-1">{{user.cart.numberOfItems}} produkter </td>
-                        <td class="text-right">{{user.cart.priceSummary.totalPriceNoVat}} kr</td>
-                    </tr>
-                    <tr>
-                        <td>Frakt </td>
-                        <td class="text-right">0 kr</td>
-                    </tr>
-                    <tr>
-                        <td>Varav moms </td>
-                        <td class="text-right">{{user.cart.priceSummary.totalVat}} kr</td>
-                    </tr>
-                </table>
-                <form action="payment.php">
-                    <button class="btn btn-primary" type="submit">Gå till kassan</button>
-                </form>
-            {{/user.cart.numberOfItems}}
-            {{^user.cart.numberOfItems}}
-                <div>
-                    <h4>Din kundvagn är tom</h4>
-                </div>
-            {{/user.cart.numberOfItems}}
+                {{/user.cart.numberOfItems}}
+            {{/user.loggedIn}}
+            {{^user.loggedIn}}
+            <div>
+                <p>Du måste <a href="/konto/login.php" class="text-decoration-none">logga in</a> eller <a href="/konto/register.php" class="text-decoration-none">registrera dig</a> för att skapa en kundvagn</p>
+            </div>
+            {{/user.loggedIn}}
         </div>
     </main>
     <script>

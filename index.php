@@ -2,7 +2,6 @@
 
 include "php/debugSettings.php";
 require_once "php/userSession.php";
-$user = new userSession(true, [0,1,2]);
 require_once "php/sql/getAllProducts.php";
 require_once "lib/Mustache/Autoloader.php";
 
@@ -13,6 +12,6 @@ $mustache = new Mustache_Engine(array(
 ));
 $template = $mustache -> loadTemplate("displayAllProducts.mustache");
 
-$user = new UserSession(false, [0]);
-debug_v($user, '$_SESSION');
+$user = new UserSession(false, [0, 1, 2]);
+
 echo $template->render(array("products" => getAllProducts(), "user" => $user));

@@ -4,7 +4,7 @@ include "../php/debugSettings.php";
 require_once "../php/userSession.php";
 require_once "../lib/Mustache/Autoloader.php";
 
-$user = new userSession(true, [0,1,2]);
+$user = new userSession(false, [0, 1, 2]);
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Display all products in cart
 
@@ -15,7 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     ));
     $template = $mustache -> loadTemplate("cart.mustache");
     
-    echo $template->render(array("cartItems" => $user->cart->items, "user" => $user));
+    $cartItems = Null;
+    if(!empty($user->cart)){
+        $cartItems = $user->cart->items;
+    }
+    echo $template->render(array("cartItems" => $cartItems, "user" => $user));
     exit();
 }
 

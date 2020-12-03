@@ -2,7 +2,6 @@
 
 include "php/debugSettings.php";
 require_once "php/userSession.php";
-$user = new userSession(true, [0,1,2]);
 require_once "php/sql/getProduct.php";
 require_once "lib/Mustache/Autoloader.php";
 
@@ -18,6 +17,6 @@ if($productID == NULL){
     die ("<code>pid</code> kan inte vara NULL");
 }
 
-$user = new UserSession(false, [0]);
+$user = new UserSession(false, [0, 1, 2]);
 
 echo $template->render(array("product" => getProduct($productID), "user" => $user));

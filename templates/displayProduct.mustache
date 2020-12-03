@@ -31,20 +31,36 @@
                     <div class="col col-12 col-lg-6">
                         {{price}} kr <small class="text-muted">(exkl. moms)</small>
                     </div>
-                    <form action="/beställning/cart.php" method="POST" class="col col-12 col-lg-6">
-                        <input type="hidden" value="PUT" name="action">
-                        <input type="hidden" value="{{prod_id}}" name="pid">
-                        <div class="input-group">
-                            <input name="quantity" type="number" value="1" min="1" max="{{balance}}" step="1"
-                                class="form-control" placeholder="Antal" aria-describedby="button-addToCart">
-                            <div class="input-group-append">
-                                <button type="submit" class="btn btn-outline-primary {{^balance}}disabled{{/balance}}"
-                                    id="button-addToCart">
-                                    Lägg i kundvagn
-                                </button>
+                    {{#user.loggedIn}}
+                        <form action="/beställning/cart.php" method="POST" class="col col-12 col-lg-6">
+                            <input type="hidden" value="PUT" name="action">
+                            <input type="hidden" value="{{prod_id}}" name="pid">
+                            <div class="input-group">
+                                <input name="quantity" type="number" value="1" min="1" max="{{balance}}" step="1"
+                                    class="form-control" placeholder="Antal" aria-describedby="button-addToCart">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-outline-primary {{^balance}}disabled{{/balance}}"
+                                        id="button-addToCart">
+                                        Lägg i kundvagn
+                                    </button>
+                                </div>
                             </div>
+                        </form>
+                    {{/user.loggedIn}}
+                    {{^user.loggedIn}}
+                        <div class="col col-12 col-lg-6">
+                            <div class="input-group">
+                                <input name="quantity" type="number" value="1" min="1" max="{{balance}}" step="1"
+                                    class="form-control" placeholder="Antal" aria-describedby="button-addToCart">
+                                <div class="input-group-append">
+                                    <button tabindex="0" class="btn btn-outline-primary btn-sm btn-add-to-cart {{^balance}}disabled{{/balance}}" 
+                                        role="button" data-toggle="popover" data-trigger="focus" title="" 
+                                        data-content="Du måste logga in eller registrera dig för att lägga produkter i kundvagnen">Lägg i kundvagn</button>
+                                </div>
+                            </div>
+                            
                         </div>
-                    </form>
+                    {{/user.loggedIn}}
                 </div>
                 <div>
                     {{#balance}}
@@ -72,6 +88,11 @@
         {{/product}}
 
     </main>
+    <script>
+        $('.btn-add-to-cart').popover({
+            trigger: 'focus'
+        });
+    </script>
 </body>
 
 </html>
