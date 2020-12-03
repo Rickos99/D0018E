@@ -16,15 +16,15 @@
                     <a class="nav-link text-dark" href="#Account/Me.php">Mitt konto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/konto/logout.php">Logga ut</a>
+                    <a class="nav-link text-dark" href="/konto/logout.php?returnUrl={{user.currentPath}}">Logga ut</a>
                 </li>
                 {{/user.loggedIn}}
                 {{^user.loggedIn}}
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/konto/register.php">Registrera</a>
+                    <a class="nav-link text-dark" href="/konto/register.php?returnUrl={{user.currentPath}}">Registrera</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/konto/login.php">Logga in</a>
+                    <a class="nav-link text-dark" href="/konto/login.php?returnUrl={{user.currentPath}}">Logga in</a>
                 </li>
                 {{/user.loggedIn}}
             </ul>

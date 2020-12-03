@@ -1,4 +1,10 @@
 <?php
+
+$returnUrl = "/";
+if(!empty($_GET["returnUrl"])){
+    $returnUrl = $_GET["returnUrl"];
+}
+
 // Initialize the session
 session_start();
  
@@ -9,6 +15,6 @@ $_SESSION = array();
 session_destroy();
  
 // Redirect to login page
-header("location: login.php");
+header("location: $returnUrl");
 exit;
 ?>

@@ -1,5 +1,10 @@
 <?php
 
+$returnUrl = "/";
+if(!empty($_GET["returnUrl"])){
+    $returnUrl = $_GET["returnUrl"];
+}
+
 $mysqli = new mysqli("127.0.0.1", "grupp16", "grupp16", "STORE");
 $mysqli->set_charset("utf8");
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -82,7 +87,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_role = 0;
 
             if($stmt->execute()){
-                header("location: login.php");
+                header("location: login.php?returnUrl=$returnUrl");
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -104,7 +109,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <h2>Sign Up</h2>
     <p>Please fill this form to create an account.</p>
 
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <form action="?returnUrl=<?=$returnUrl?>" method="post">
     
     <label>Full name</label>
     <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">

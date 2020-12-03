@@ -9,10 +9,12 @@ class UserSession {
     public int $uid;
     public int $role;
     public Cart $cart;
+    public string $currentPath;
 
     function __construct(bool $isSignInRequired = true, array $allowedRolesOnPage = []){
         session_start();
         $this -> loggedIn = isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true;
+        $this -> currentPath = $_SERVER['REQUEST_URI'];
         if($isSignInRequired && !$this -> loggedIn){
             UserSession::redirectToLoginPage();
             exit();

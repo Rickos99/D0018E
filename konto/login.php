@@ -2,8 +2,13 @@
  
 session_start();
 
+$returnUrl = "/";
+if(!empty($_GET["returnUrl"])){
+    $returnUrl = $_GET["returnUrl"];
+}
+
 if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin" === true]){
-    header("location: /");
+    header("location: $returnUrl");
     exit;
 }
 
@@ -50,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             $_SESSION["uid"] = $uid;
                             $_SESSION["userRole"] = $role;
                             
-                            header("location: /");
+                            header("location: $returnUrl");
                         } else{
                             $password_err = "Incorrect password";
                             echo "Error in password";
@@ -82,7 +87,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
     <h2>Login</h2>
     <p>Please fill in your credentials to login.</p>
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+    <form action="?returnUrl=<?=$returnUrl?>" method="post">
         <label>Email</label>
         <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
         <label>Password</label>
