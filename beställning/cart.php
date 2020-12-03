@@ -4,7 +4,7 @@ include "../php/debugSettings.php";
 require_once "../php/userSession.php";
 require_once "../lib/Mustache/Autoloader.php";
 
-$user = new userSession(true, [0]);
+$user = new userSession(true, [0,1,2]);
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Display all products in cart
 
@@ -27,12 +27,12 @@ if($_POST["action"] === "PUT"){
     // Add n of products to cart
     $pid = (int)$_POST["pid"];
     $quantity = (int)$_POST["quantity"];
-    $userSession->cart->addItem($pid, $quantity);
+    $user->cart->addItem($pid, $quantity);
     pprint("Method: PUT");
 } else if($_POST["action"] === "DELETE") {
     // Delete product from cart
     $pid = (int)$_POST["pid"];
-    $userSession->cart->removeItem($pid);
+    $user->cart->removeItem($pid);
     pprint("Method: DELETE");
 } else {
     die("Unknown action");

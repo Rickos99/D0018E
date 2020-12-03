@@ -43,7 +43,7 @@ $mysqli->close();
 <link rel="stylesheet" type="text/css" href="addproduct.css">
 <body>
     <article>
-    <form action="index.html" method="post">
+    <form action="index.php" method="post">
         <input type="submit" name="Submit" value="Return to Admin - Home">
     </form>
     </article>

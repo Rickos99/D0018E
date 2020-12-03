@@ -68,17 +68,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
 
     if(empty($email_err) && empty($password_err) && empty($confirm_password_err) && empty($phone_err) && empty($name_err) && empty($address_err)){
-        $sql = "INSERT INTO USERS (full_name, hashed_pwd, address, phone, email) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO USERS (full_name, hashed_pwd, address, phone, email, role) VALUES (?, ?, ?, ?, ?, ?)";
 
         if($stmt = $mysqli->prepare($sql)){
 
-            $stmt->bind_param("sssss", $param_fullname, $param_password, $param_address, $param_phone, $param_email);
+            $stmt->bind_param("sssssi", $param_fullname, $param_password, $param_address, $param_phone, $param_email, $param_role);
 
             $param_fullname = $name;
             $param_password = password_hash($password, PASSWORD_DEFAULT);
             $param_address = $address;
             $param_phone = $phone;
             $param_email = $email;
+            $param_role = 0;
 
             if($stmt->execute()){
                 header("location: login.php");
