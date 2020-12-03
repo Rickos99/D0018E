@@ -3,6 +3,12 @@
 require_once "db.conn.php";
 
 function addProductToCart(int $uid, int $pid, int $quantity){
+    if(empty($uid) || empty($pid || empty($quantity))){
+        throw new InvalidArgumentException("Parameters cannot be empty");
+    }
+    if($quantity < 1){
+        throw new OutOfRangeException('Parameter $quantity cannot be empty and must not be less than 1');
+    }
     $mysqli = getDbConnection();
     
     $sql = "SELECT cart_id FROM `STORE`.`SHOPPING_CARTS` WHERE uid = ?";
@@ -19,7 +25,7 @@ function addProductToCart(int $uid, int $pid, int $quantity){
         $sql = "INSERT INTO `STORE`.`SHOPPING_CARTS` (uid, changed_at) VALUES (?, ?)";
         $stmtCreateCart = $mysqli -> prepare($sql) or die("(".__LINE__ .") Error: " . $mysqli -> error);
         $stmtCreateCart -> bind_param("is", $uid, $dateTimeNow);
-        $stmtCreateCart -> execute();
+        $stmtCreateCart -> execute() or die("ERROR: Your cart failed to be created!");
         $stmtCreateCart -> free_result();
         $mysqli->close();
 
@@ -40,6 +46,13 @@ function addProductToCart(int $uid, int $pid, int $quantity){
     $stmtChangeProductQuantity = $mysqli -> prepare($sql);
     $stmtChangeProductQuantity -> bind_param("iii", $quantity, $pid, $cartId);
     $stmtChangeProductQuantity -> execute();
+    $stmtChangeProductQuantity -> close();
+
+    $sql = "UPDATE `STORE`.`SHOPPING_CARTS` SET `changed_at` = (SELECT NOW()) WHERE `cart_id` = ?";
+    $stmtUpdateCart = $mysqli -> prepare($sql);
+    $stmtUpdateCart -> bind_param("i", $cartId);
+    $stmtUpdateCart -> execute();
+    $stmtUpdateCart -> close();
 
     $mysqli -> close();
 }

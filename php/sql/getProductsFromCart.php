@@ -3,6 +3,10 @@
 require_once "db.conn.php";
 
 function getProductsFromCart(int $uid) : array {
+    if(empty($uid)){
+        throw new InvalidArgumentException("Parameters cannot be empty");
+    }
+
     $mysqli = getDbConnection();
     
     $sql = "SELECT cart_id FROM `STORE`.`SHOPPING_CARTS` WHERE uid = ?";
@@ -18,8 +22,8 @@ function getProductsFromCart(int $uid) : array {
               WHERE cart_id = ?";
     $stmtGetItems = $mysqli -> prepare($sql);
     $stmtGetItems -> bind_param("i", $cartId);
-    $stmtGetItems -> execute();
-    $stmtGetItems -> store_result();
+    $stmtGetItems -> execute() or die("ERROR: An error occured while searching for your cartitems!");
+    $stmtGetItems -> store_result() or die("ERROR: Your shopping cart items could not be retrieved!");
     $stmtGetItems -> bind_result($pid, $quantity, $name, $price, $vat, $balance);
     
     $productsInCart = array();

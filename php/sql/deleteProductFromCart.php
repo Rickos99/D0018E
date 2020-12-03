@@ -19,5 +19,11 @@ function deleteProductFromCart(int $uid, int $pid){
     $stmtDeleteCartItem -> execute();
     $stmtDeleteCartItem -> close();
 
+    $sql = "UPDATE `STORE`.`SHOPPING_CARTS` SET `changed_at` = (SELECT NOW()) WHERE `cart_id` = ?";
+    $stmtUpdateCart = $mysqli -> prepare($sql);
+    $stmtUpdateCart -> bind_param("i", $cartId);
+    $stmtUpdateCart -> execute();
+    $stmtUpdateCart -> close();
+
     $mysqli -> close();
 }

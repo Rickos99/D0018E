@@ -18,15 +18,16 @@ class UserSession {
             exit();
         }
         
-        $this -> uid = (int)$_SESSION["uid"];
-        $this -> role = (int)$_SESSION["userRole"];
+        if($this->loggedIn) {
+            $this -> uid = (int)$_SESSION["uid"];
+            $this -> role = (int)$_SESSION["userRole"];
+            $this -> cart = new Cart($this->uid);
 
-        if(!in_array($this->role, $allowedRolesOnPage, true)){
-            header("HTTP/1.1 403 Forbidden");
-            exit();
+            if($isSignInRequired && !in_array($this->role, $allowedRolesOnPage, true)){
+                header("HTTP/1.1 403 Forbidden");
+                exit();
+            }
         }
-
-        $this -> cart = new Cart($this->uid);
     }
     
     static function redirectToLoginPage(string $returnUrl = NULL){
@@ -52,7 +53,11 @@ class Cart {
     }
 
     function addItem($pid, $quantity){
-        addProductToCart($this->uid, $pid, $quantity);
+        if($quantity < 1){
+            deleteProductFromCart($this->uid, $pid);
+        } else {
+            addProductToCart($this->uid, $pid, $quantity);
+        }
     }
 
     function getAllItems() : array {
