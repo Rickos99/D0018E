@@ -53,3 +53,15 @@ CREATE TABLE `CART_ITEMS`(
     FOREIGN KEY(product_id) REFERENCES PRODUCTS(prod_id),
     CONSTRAINT PK_CartItem PRIMARY KEY (product_id, cart_id)
 );
+
+CREATE TABLE `REVIEWS`(
+    `uid` int unsigned NOT NULL,
+    `product_id` int unsigned NOT NULL,
+    `title` varchar(255) NOT NULL,
+    `comment` varchar(8000),
+    `rating` int UNSIGNED NOT NULL,
+    `recommends` bool NOT NULL,
+    FOREIGN KEY(uid) REFERENCES USERS(uid),
+    FOREIGN KEY(product_id) REFERENCES PRODUCTS(prod_id),
+    CONSTRAINT PK_Reviews PRIMARY KEY (uid, product_id)
+);
