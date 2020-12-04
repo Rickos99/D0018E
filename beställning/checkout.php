@@ -23,6 +23,7 @@ $quantityQuery = "SELECT quantity FROM CART_ITEMS WHERE cart_id=(".$a.")";
 $productQuery = "SELECT name, price WHERE prod_id=(".$b.")";
 */
 
+//Final Query for Getting contents of cart
 $finalQuery = "SELECT PRODUCTS.name, PRODUCTS.price, CART_ITEMS.quantity FROM PRODUCTS INNER JOIN CART_ITEMS ON PRODUCTS.prod_id=CART_ITEMS.product_id WHERE cart_id=(".$a.")";
 
 $r = mysqli_query($mysqli, $finalQuery);
@@ -35,6 +36,14 @@ while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
         'quantity' => $row['quantity']
     );
 }
+
+//Query for user information
+$userQuery = "SELECT full_name, address, phone, email FROM USERS WHERE uid=".$uid;
+
+$s = mysqli_query($mysqli, $userQuery);
+
+$userRow = $s->fetch_row();
+
 
 
 ?>
@@ -51,6 +60,11 @@ while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 <article class="left">
 	<h2>Your Cart</h2>
 <table style="width:100%">
+    <tr>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+    </tr>
 <?php
 foreach($values as $v){
     echo '
@@ -66,23 +80,23 @@ foreach($values as $v){
 </article>
 
 <article class="right">
-	<h2>Shipping information</h2>
+	<h2>Shipping information - Please Review</h2>
 <form action="edit.php" method="post">
     <p>
         <label for="Name">Name:</label>
-        <input type="text" name="name" id="Name" class="override2">
+        <input type="text" name="name" id="Name" class="override2" value="<?php echo $userRow[0];?>">
     </p>
     <p>
         <label for="Address">Address:</label>
-        <input type="text" name="address" id="Address" class="override2">
+        <input type="text" name="address" id="Address" class="override2" value="<?php echo $userRow[1];?>">
     </p>
     <p>
         <label for="Phonenumber">Phone number:</label>
-        <input type="text" name="phonenumber" id="Phonenumber" class="override2">
+        <input type="text" name="phonenumber" id="Phonenumber" class="override2" value="<?php echo $userRow[2];?>">
     </p>
     <p>
         <label for="Email">Email:</label>
-        <input type="text" name="email" id="Email" class="override2">
+        <input type="text" name="email" id="Email" class="override2" value="<?php echo $userRow[3];?>">
     </p>
         <input type="submit" value="Place Order">
 </form>
