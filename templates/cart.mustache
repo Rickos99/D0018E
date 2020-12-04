@@ -79,7 +79,7 @@
                             <td class="text-right">{{user.cart.priceSummary.totalVat}} kr</td>
                         </tr>
                     </table>
-                    <form action="payment.php">
+                    <form action="checkout.php">
                         <button class="btn btn-primary" type="submit">Gå till kassan</button>
                     </form>
                 {{/user.cart.numberOfItems}}
@@ -91,7 +91,10 @@
             {{/user.loggedIn}}
             {{^user.loggedIn}}
             <div>
-                <p>Du måste <a href="/konto/login.php" class="text-decoration-none">logga in</a> eller <a href="/konto/register.php" class="text-decoration-none">registrera dig</a> för att skapa en kundvagn</p>
+                <p>
+                    Du måste <a href="/konto/login.php?returnUrl={{user.currentPath}}" class="text-decoration-none">logga in</a> eller 
+                    <a href="/konto/register.php?returnUrl={{user.currentPath}}" class="text-decoration-none">registrera dig</a> för att skapa en kundvagn
+                </p>
             </div>
             {{/user.loggedIn}}
         </div>

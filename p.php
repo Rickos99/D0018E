@@ -12,11 +12,12 @@ $mustache = new Mustache_Engine(array(
 ));
 $template = $mustache -> loadTemplate("displayProduct.mustache");
 
-$productID = $_GET["pid"];
-if($productID == NULL){
-    die ("<code>pid</code> kan inte vara NULL");
-}
-
 $user = new UserSession(false, [0, 1, 2]);
 
-echo $template->render(array("product" => getProduct($productID), "user" => $user));
+$product = NULL;
+$productID = $_GET["pid"];
+if(isset($productID) && $productID > 0){
+    $product = getProduct($productID);
+}
+
+echo $template->render(array("product" => $product, "user" => $user));

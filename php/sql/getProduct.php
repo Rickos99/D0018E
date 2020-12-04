@@ -12,15 +12,19 @@ function getProduct(int $productId) {
         $stmt -> bind_param("i", $productId);
         $stmt -> execute();
         $stmt -> bind_result($prod_id, $name, $description, $price, $vat, $balance);
-        $stmt -> fetch();
-
-        $returnValue -> prod_id = $prod_id;
-        $returnValue -> name = $name;
-        $returnValue -> description = $description;
-        $returnValue -> price = $price;
-        $returnValue -> vat = $vat;
-        $returnValue -> balance = $balance;
+        $stmt -> store_result();
         
+        if($stmt -> num_rows == 0){
+            $returnValue = null;
+        } else {
+            $stmt -> fetch();
+            $returnValue -> prod_id = $prod_id;
+            $returnValue -> name = $name;
+            $returnValue -> description = $description;
+            $returnValue -> price = $price;
+            $returnValue -> vat = $vat;
+            $returnValue -> balance = $balance;
+        }
     }
 
     $mysqli -> close();
