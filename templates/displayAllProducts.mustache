@@ -23,12 +23,15 @@
                         </a>
                         <p class="card-text">{{priceInclVat}} kr</p>
                         <p class="card-text">
-                            <span class="material-icons text-gold">star_rate</span>
-                            <span class="material-icons text-gold">star_rate</span>
-                            <span class="material-icons text-gold">star_rate</span>
-                            <span class="material-icons text-black-50">star_rate</span>
-                            <span class="material-icons text-black-50">star_rate</span>
-                            <span class="text-muted text-align-vc">30</span>
+                            {{#rating}}
+                                <span class="material-icons text-gold">star_rate</span>
+                                <span class="text-align-vc">{{rating}}</span>
+                                <span class="text-muted text-align-vc">({{ratings}})</span>
+                            {{/rating}}
+                            {{^rating}}
+                                <span class="material-icons text-black-50">star_rate</span>
+                                <span class="text-muted text-align-vc">0</span>
+                            {{/rating}}
                         </p>
                         <div class="card-text">
                             {{#balance}}
