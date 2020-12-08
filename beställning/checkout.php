@@ -28,7 +28,6 @@ $finalQuery = "SELECT PRODUCTS.name, PRODUCTS.price, CART_ITEMS.quantity FROM PR
 
 $r = mysqli_query($mysqli, $finalQuery);
 
-
 while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
     $values[] = array(
         'name' => $row['name'],
@@ -81,7 +80,7 @@ foreach($values as $v){
 
 <article class="right">
 	<h2>Shipping information - Please Review</h2>
-<form action="edit.php" method="post">
+<form action="order.php" method="post">
     <p>
         <label for="Name">Name:</label>
         <input type="text" name="name" id="Name" class="override2" value="<?php echo $userRow[0];?>">
