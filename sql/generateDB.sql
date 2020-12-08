@@ -61,6 +61,7 @@ CREATE TABLE `REVIEWS`(
     `comment` varchar(8000),
     `rating` int UNSIGNED NOT NULL,
     `recommends` bool NOT NULL,
+    `created_at` datetime DEFAULT NOW(),
     FOREIGN KEY(uid) REFERENCES USERS(uid),
     FOREIGN KEY(product_id) REFERENCES PRODUCTS(prod_id),
     CONSTRAINT PK_Reviews PRIMARY KEY (uid, product_id)
