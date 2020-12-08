@@ -1,0 +1,95 @@
+header {
+	font-family: arial;
+	font-size: 40px;
+	height: 200px;
+}
+
+input[type=text] {
+  border: 2px solid teal;
+  border-radius: 4px;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+.override{
+	background-color: grey;
+	color: white;
+	font-size: 20px;
+}
+
+.override2{
+	background-color: white;
+	color: black;
+	font-size: 20px;
+}
+
+input[type=text]:focus {
+  border: 3px solid #555;
+  margin: 7px 0;
+  font-size: 20px;
+}
+
+article {
+	font-size: 20px;
+	height: 300px;
+	width: 35%;
+	margin-left: 20px;
+	font-family: arial;
+}
+
+.left{
+	float: left;
+	pointer-events: none;
+}
+
+.mid{
+	float: left;
+	width: 150px;
+	margin-left: 200px;
+	font-size: 50px;
+	padding-top: 35px;
+}
+
+.right{
+	float: right;
+	margin-right: 150px;
+}
+
+body {
+	font-family: arial;
+
+}
+
+input[type=button], input[type=submit], input[type=reset] {
+  background-color: teal;
+  border: 2px solid teal;
+  border-radius: 4px;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  float: right;
+}
+
+.hack0 {
+	height: 115px;
+	text-align: top;
+}
+
+.hack1 {
+	padding-bottom: 20px;
+	text-align: top;
+	height: 90px;
+}
+
+.hack2 {
+	text-align: top;
+	height: 113px;
+}
+
+.hack3 {
+	text-align: top;
+	height: 110px;
+}

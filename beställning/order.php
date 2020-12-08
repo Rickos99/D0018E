@@ -7,46 +7,86 @@ $mysqli = new mysqli("127.0.0.1", "grupp16", "grupp16", "STORE");
 if($mysqli === false){
     die("ERROR: Could not connect. " . $mysqli->connect_error);
 }
- 
-$uid = $_SESSION["uid"];
 
-$orderQuery = "INSERT INTO ORDERS (uid, status, created_at) VALUES (?, ?, ?)";
+//Query for insertion into ORDERS
+$ordersQuery = "INSERT INTO ORDERS (uid, status, created_at, full_name, address, phone, email)
+   VALUES (?, ?, NOW(), ?, ?, ?, ?)";
 
- 
-if($stmt1 = $mysqli->prepare($orderQuery)){
-    $stmt1->bind_param("iss", $id, $status, $created_at);
-    
-    $id = $uid;
-    $status = "Processing";
-    $created_at = date('Y/m/d H:i:s');
-    
+//Query for insertion into ORDER_ITEMS
+$orderItemsQuery = "INSERT INTO ORDER_ITEMS (order_id, product_id, quantity, price, vat)
+SELECT LAST_INSERT_ID() as order_id, CI.product_id, CI.quantity, P.price, P.vat FROM CART_ITEMS as CI
+   LEFT JOIN PRODUCTS as P ON CI.product_id = P.prod_id
+   WHERE CI.cart_id = (SELECT SC.cart_id FROM SHOPPING_CARTS as SC WHERE uid = ".$uid.")";
+
+//Begin the transaction
+$mysqli->beginTransaction();
+
+//ORDERS Query
+if($stmt1 = $mysqli->prepare($ordersQuery)){
+    $stmt1->bind_param("isssss", $uid, $defaultStatus, $fullName, $address, $phoneNumber, $email);
+        
+    $uid = $_SESSION["uid"];
+    $defaultStatus = "Processing";
+    $fullName = $_REQUEST["name"];
+    $address = $_REQUEST["address"];
+    $phoneNumber = $_REQUEST["phonenumber"];
+    $email = $_REQUEST["email"];
+
+        
     if($stmt1->execute()){
-        echo "Order added successfully.";
+        echo "ORDERS query performed successfully.";
+
     } else{
         echo "ERROR: Could not execute query: $sql. " . $mysqli->error;
+        echo "Rollback performed";
+        $mysqli->rollback();
     }
 } else{
     echo "ERROR: Could not prepare query: $sql. " . $mysqli->error;
+    echo "Rollback performed";
+    $mysqli->rollback();
 }
- 
+
+//ORDER_ITEMS Query
+if($stmt2 = $mysqli->prepare($orderItemsQuery)){
+    $stmt2->bind_param("i", $uid);
+        
+    $uid = $_SESSION["uid"];
+        
+    if($stmt2->execute()){
+        echo "ORDER_ITEMS query performed successfully";
+
+    } else{
+        echo "ERROR: Could not execute query: $sql. " . $mysqli->error;
+        echo "Rollback performed";
+        $mysqli->rollback();
+    }
+} else{
+    echo "ERROR: Could not prepare query: $sql. " . $mysqli->error;
+    echo "Rollback performed";
+    $mysqli->rollback();
+}
+
+//All queries performed successfully. Committing
+$mysqli->commit();
+
+
+
 $stmt1->close();
 
-$itemsQuery = "
-INSERT INTO ORDER_ITEMS ()"
  
 $mysqli->close();
 ?>
 
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="addproduct.css">
+    <link rel="stylesheet" type="text/css" href="fix.css">
     <title>Edit - Results</title>
 </head>
-<link rel="stylesheet" type="text/css" href="addproduct.css">
 <body>
     <article>
     <form action="index.html" method="post">
-        <input type="submit" name="Submit" value="Return to Admin - Home">
+        <input type="submit" name="Submit" value="Placeholder">
     </form>
     </article>
 </body>
