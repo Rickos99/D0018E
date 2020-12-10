@@ -1,6 +1,7 @@
 <?php
-
-session_start();
+//role
+require_once "../php/userSession.php";
+$user = new userSession(true, [0,1,2]);
 
 $mysqli = new mysqli("127.0.0.1", "grupp16", "grupp16", "STORE");
  
@@ -16,10 +17,14 @@ $ordersQuery = "INSERT INTO ORDERS (uid, status, created_at, full_name, address,
 $orderItemsQuery = "INSERT INTO ORDER_ITEMS (order_id, product_id, quantity, price, vat)
 SELECT LAST_INSERT_ID() as order_id, CI.product_id, CI.quantity, P.price, P.vat FROM CART_ITEMS as CI
    LEFT JOIN PRODUCTS as P ON CI.product_id = P.prod_id
-   WHERE CI.cart_id = (SELECT SC.cart_id FROM SHOPPING_CARTS as SC WHERE uid = ".$uid.")";
+   WHERE CI.cart_id = (SELECT SC.cart_id FROM SHOPPING_CARTS as SC WHERE uid =?)";
+
+
 
 //Begin the transaction
 $mysqli->beginTransaction();
+
+
 
 //ORDERS Query
 if($stmt1 = $mysqli->prepare($ordersQuery)){
@@ -47,6 +52,10 @@ if($stmt1 = $mysqli->prepare($ordersQuery)){
     $mysqli->rollback();
 }
 
+
+
+
+
 //ORDER_ITEMS Query
 if($stmt2 = $mysqli->prepare($orderItemsQuery)){
     $stmt2->bind_param("i", $uid);
@@ -67,12 +76,15 @@ if($stmt2 = $mysqli->prepare($orderItemsQuery)){
     $mysqli->rollback();
 }
 
+$stmt1->close();
+$stmt2->close();
+
+
+
 //All queries performed successfully. Committing
 $mysqli->commit();
 
 
-
-$stmt1->close();
 
  
 $mysqli->close();
