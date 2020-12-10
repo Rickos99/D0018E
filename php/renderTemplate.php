@@ -1,10 +1,12 @@
 <?php
 
-require_once "lib/Mustache/Autoloader.php";
+$pathToRoot = '/var/www/html';
+require_once "$pathToRoot/lib/Mustache/Autoloader.php";
 
 function renderTemplate(string $templateName, array $context){
-    $templatePath = __DIR__."/../templates";
-    $partialsPath = __DIR__."/../templates/shared";
+    global $pathToRoot;
+    $templatePath = "$pathToRoot/templates";
+    $partialsPath = "$pathToRoot/templates/shared";
 
     Mustache_Autoloader::register();
     $mustache = new Mustache_Engine(array(
