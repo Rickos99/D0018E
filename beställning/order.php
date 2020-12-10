@@ -1,4 +1,7 @@
 <?php
+
+include "../php/debugSettings.php";
+
 //role
 require_once "../php/userSession.php";
 $user = new userSession(true, [0,1,2]);
@@ -22,7 +25,7 @@ SELECT LAST_INSERT_ID() as order_id, CI.product_id, CI.quantity, P.price, P.vat 
 
 
 //Begin the transaction
-$mysqli->beginTransaction();
+$mysqli->begin_transaction();
 
 
 
