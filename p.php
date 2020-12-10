@@ -3,17 +3,46 @@
 include "php/debugSettings.php";
 require_once "php/userSession.php";
 require_once "php/sql/getProduct.php";
+require_once "php/sql/getProductReview.php";
+require_once "php/sql/addProductReview.php";
 require_once "php/renderTemplate.php";
 
+$user = new UserSession(false, [0, 1, 2]);
 $product = NULL;
 $productID = $_GET["pid"];
+$userReview = Null;
+$formMessage = Null;
+
+if($_SERVER['REQUEST_METHOD'] === 'POST' && $user->loggedIn){
+    $review = new stdClass();
+    $review -> uid = (int)$user->uid;
+    $review -> pid = (int)$_POST['pid'];
+    $review -> title = trim($_POST['title']);
+    $review -> comment = trim($_POST['comment']);
+    $review -> rating = (int)$_POST['reviewRating'];
+    $review -> recommends = (int)$_POST['recommends'];
+    
+    if(addProductReview($review) === true){
+        header("location: " . $_SERVER['REQUEST_URI']);
+    } else {
+        $userReview = $review;
+        $formMessage = 'Något gick fel när din recension skulle sparas. Var god försök igen!';
+    }
+}
+
 if(isset($productID) && $productID > 0){
     $product = getProduct($productID);
 }
 
+if($user->loggedIn && !$_POST){
+    $userReview = getProductReview($user->uid, $productID);
+}
+
 $context = array(
     "product" => $product, 
-    "user" => new UserSession(false, [0, 1, 2]), 
+    "user" => $user,
+    "userReview" => $userReview,
+    "formMessage" => $formMessage,
     "fnOutputStars" => function($stars, Mustache_LambdaHelper $helper){
         $stars = (int)$helper->render($stars);
         $i = 5;

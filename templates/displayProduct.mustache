@@ -9,8 +9,15 @@
 
 <body>
     {{> _navigation}}
-
     <main class="container">
+        {{#formMessage}}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{formMessage}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {{/formMessage}}
         {{#product}}
         <div class="row">
             <div class="col col-12 col-md-6">
@@ -87,7 +94,12 @@
                 <div class="card-header" id="reviewWrite">
                     <h5 class="mb-0">
                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Skriv en recension
+                        {{#userReview}}
+                            Ändra min recension
+                        {{/userReview}}
+                        {{^userReview}}
+                            Skriv en recension
+                        {{/userReview}}
                     </button>
                     </h5>
                 </div>
@@ -97,34 +109,43 @@
                             <input type="hidden" value="{{prod_id}}" name="pid">
                             <div class="form-group">
                                 <label for="reviewTitle">Titel<span class="text-danger">*</span></label>
-                                <input type="text" name="title" max="255" class="form-control" id="reviewTitle" aria-describedby="reviewTitleHelpText" placeholder="Ange en titel" required>
+                                <input type="text" name="title" max="255" class="form-control" id="reviewTitle" aria-describedby="reviewTitleHelpText" placeholder="Ange en titel" value="{{userReview.title}}" required>
                                 <small id="reviewTitleHelpText" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                                 <label for="reviewComment">Kommentar</label>
-                                <textarea name="comment" max="8000" class="form-control" id="reviewComment" aria-describedby="reviewCommentHelpText" placeholder="Skriv din recension här..." rows="4"></textarea>
+                                <textarea name="comment" max="8000" class="form-control" id="reviewComment" aria-describedby="reviewCommentHelpText" placeholder="Skriv din recension här..." rows="4">{{userReview.comment}}</textarea>
                                 <small id="reviewCommentHelpText" class="form-text text-muted"></small>
                             </div>
                             <div class="form-group">
                                 <span>Omdöme<span class="text-danger">*</span></span>
-                                <input type="number" name="reviewRating" id="reviewRating" style="opacity: 0; width: 0;" required >
+                                <input type="number" name="reviewRating" id="reviewRating" style="opacity: 0; width: 0;" value="{{userReview.rating}}" required >
                                 <div id="reviewStarsContainer">
-                                    <span class="star-rating material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
-                                    <span class="star-rating material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
-                                    <span class="star-rating material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
-                                    <span class="star-rating material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
-                                    <span class="star-rating material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
+                                    {{#userReview}}
+                                        {{#fnOutputStars}}
+                                            {{userReview.rating}}
+                                        {{/fnOutputStars}}
+                                    {{/userReview}}
+                                    {{^userReview}}
+                                        <span class="material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
+                                        <span class="material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
+                                        <span class="material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
+                                        <span class="material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
+                                        <span class="material-icons text-black-50 pointer" style="font-size: 2rem;">star_rate</span>
+                                    {{/userReview}}
                                 </div>
                             </div>
                             <div class="form-group">
                                 <span>Rekommenderar<span class="text-danger">*</span></span>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="recommends" id="reviewRecommendsYes" value="true" required>
+                                    <input class="form-check-input" type="radio" name="recommends" id="reviewRecommendsYes" value="1" required
+                                        {{#userReview.recommends}}checked{{/userReview.recommends}}>
                                     <label class="form-check-label" for="reviewRecommendsYes">Ja</label>
                                 </div>
                                 <div class="form-check">
-                                <input class="form-check-input" type="radio" name="recommends" id="reviewRecommendsNo" value="false" required>
-                                <label class="form-check-label" for="reviewRecommendsNo">Nej</label>
+                                    <input class="form-check-input" type="radio" name="recommends" id="reviewRecommendsNo" value="0" required 
+                                        {{^userReview.recommends}}checked{{/userReview.recommends}}>
+                                    <label class="form-check-label" for="reviewRecommendsNo">Nej</label>
                                 </div>
                             </div>
                             <button class="btn btn-primary" type="submit">Spara recension</button>
@@ -195,7 +216,7 @@
 
     </main>
     <script>
-        $(".star-rating").click(function(e){
+        $("#reviewStarsContainer > span").click(function(e){
             const clickedStarIndex = $(e.target).index();
             $("#reviewRating").val(clickedStarIndex + 1);
             $("#reviewStarsContainer").children().each(function(i, elem){
