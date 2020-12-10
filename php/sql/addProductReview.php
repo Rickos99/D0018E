@@ -19,7 +19,6 @@ function addProductReview(object $review) : bool {
     } else {
         $sql = "UPDATE REVIEWS SET title=?, comment=?, rating=?, recommends=?
                    WHERE uid=? and product_id=?";
-                   die("UPDATE");
     }
     $stmt -> close();
 
@@ -27,7 +26,6 @@ function addProductReview(object $review) : bool {
     $stmt -> bind_param("ssiiii", $review->title, $review->comment, $review->rating, 
                         $review->recommends, $review->uid, $review->pid);
     if(!$stmt -> execute()){
-        die("Error: ".$mysqli->error);
         return false;
     }
     $stmt -> close();
