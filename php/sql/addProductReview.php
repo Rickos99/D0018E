@@ -17,7 +17,7 @@ function addProductReview(object $review) : bool {
         $sql = "INSERT INTO REVIEWS(title, comment, rating, recommends, uid, product_id, created_at)
                    VALUES (?, ?, ?, ?, ?, ?, NOW())";
     } else {
-        $sql = "UPDATE REVIEWS SET title=?, comment=?, rating=?, recommends=?
+        $sql = "UPDATE REVIEWS SET title=?, comment=?, rating=?, recommends=?, created_at=NOW()
                    WHERE uid=? and product_id=?";
     }
     $stmt -> close();

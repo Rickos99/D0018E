@@ -17,8 +17,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && $user->loggedIn){
     $review = new stdClass();
     $review -> uid = (int)$user->uid;
     $review -> pid = (int)$_POST['pid'];
-    $review -> title = trim($_POST['title']);
-    $review -> comment = trim($_POST['comment']);
+    $review -> title = substr(trim($_POST['title']), 0, 255);
+    $review -> comment = substr(trim($_POST['comment']), 0, 8000);
     $review -> rating = (int)$_POST['reviewRating'];
     $review -> recommends = (int)$_POST['recommends'];
     
