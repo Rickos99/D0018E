@@ -66,3 +66,25 @@ CREATE TABLE `REVIEWS`(
     FOREIGN KEY(product_id) REFERENCES PRODUCTS(prod_id),
     CONSTRAINT PK_Reviews PRIMARY KEY (uid, product_id)
 );
+
+CREATE TABLE `SUPPORT_TICKETS` (
+    `ticket_id` int UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    `order_id` int UNSIGNED NOT NULL,
+    `subject` varchar(255) NOT NULL,
+    `body` varchar(2000) NOT NULL,
+    `isReturn` boolean NOT NULL,
+    `isResolved` boolean NOT NULL,
+    `created_at` datetime NOT NULL,
+    `last_updated` datetime NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
+);
+
+CREATE TABLE `TICKET_RESPONSES` (
+    `ticket_id` int UNSIGNED NOT NULL,
+    `user_id` int UNSIGNED NOT NULL,
+    `body` varchar(1000) NOT NULL,
+    `created_at` datetime NOT NULL DEFAULT NOW(),
+    FOREIGN KEY (ticket_id) REFERENCES SUPPORT_TICKETS(ticket_id),
+    FOREIGN KEY (user_id) REFERENCES USERS(uid),
+    INDEX (ticket_id)
+);
