@@ -36,6 +36,7 @@ while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
     );
 }
 
+
 //Query for user information
 $userQuery = "SELECT full_name, address, phone, email FROM USERS WHERE uid=".$uid;
 
