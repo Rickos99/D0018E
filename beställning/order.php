@@ -24,7 +24,7 @@ SELECT LAST_INSERT_ID() as order_id, CI.product_id, CI.quantity, P.price, P.vat 
    LEFT JOIN PRODUCTS as P ON CI.product_id = P.prod_id
    WHERE CI.cart_id = (SELECT SC.cart_id FROM SHOPPING_CARTS as SC WHERE uid =?)";
 
-//Query for retrieval of data required for changing quantity
+//Query for retrieval of data required for changing quantity. 
 $a = "SELECT cart_id FROM SHOPPING_CARTS WHERE uid=".$uid;
 $b = "FROM PRODUCTS INNER JOIN CART_ITEMS ON PRODUCTS.prod_id=CART_ITEMS.product_id WHERE cart_id=(".$a.")";
 $retrieveID = "SELECT PRODUCTS.prod_id ".$b;
@@ -35,6 +35,11 @@ $retrieveCartQuantity = "SELECT CART_ITEMS.quantity ".$b;
 //Update Quantity Query
 $updateQuery = "UPDATE PRODUCTS SET balance=? WHERE prod_id=?";
 
+//Delete from CART_ITEMS
+$deleteCartItemsQuery = "DELETE FROM CART_ITEMS WHERE cart_id = (SELECT cart_id FROM SHOPPING_CARTS WHERE uid = ?)";
+
+//Delete from SHOPPING_CARTS
+$deleteCartQuery = "DELETE FROM SHOPPING_CARTS WHERE uid = ?";
 
 
 //Begin the transaction
@@ -53,6 +58,7 @@ if($pi){
     }
 }else{
     echo "Retrieval of product id's failed";
+    echo "Rollback performed";
     mysqli->rollback();
 }
 
@@ -66,6 +72,7 @@ if($Q){
     }
 }else {
     echo "Retrieval of quantities failed";
+    echo "Rollback performed";
     mysqli->rollback();
 }
 
@@ -79,6 +86,7 @@ if ($cart) {
     }
 }else {
     echo "Retrieval of cart quantities failed";
+    echo "Rollback performed";
     mysqli->rollback();
 }
 
@@ -88,6 +96,7 @@ $qLength = count($QData);
 
 if($piLength != $qLength){
     echo "Product id and quantity not the same length";
+    echo "Rollback performed";
     mysqli->rollback();
 } 
 
@@ -96,6 +105,7 @@ $i = 0;
 while ($i < $piLength) {
     if ($QData[$i] < $cartData[$i]) {
         echo "Not enough items in stock";
+        echo "Rollback performed";
         mysqli->rollback();
     }
     $i = $i + 1;
@@ -149,7 +159,7 @@ if($stmt2 = $mysqli->prepare($orderItemsQuery)){
     $mysqli->rollback();
 }
 
-//QUERY FOR updating stock quantity.
+//QUERY FOR updating stock quantity. NEEDS REVIEW!!!
 $j = 0;
 $newQuantity = 0;
 while ($j < $piLength) {
@@ -178,12 +188,53 @@ while ($j < $piLength) {
     }
 }
 
-//TODO Remove cart
+//Query for deleting cart items
+if($stmt4 = $mysqli->prepare($deleteCartItemsQuery)){
+    $stmt4->bind_param("i", $uid);
+        
+    $uid = $_SESSION["uid"];
+        
+    if($stmt4->execute()){
+        echo "CART_ITEMS query performed successfully\r\n";
+
+    } else{
+        echo "ERROR: Could not execute query: $sql. " . $mysqli->error;
+        echo "Rollback performed";
+        $mysqli->rollback();
+    }
+} else{
+    echo "ERROR: Could not prepare query: $sql. " . $mysqli->error;
+    echo "Rollback performed";
+    $mysqli->rollback();
+}
+
+//Query for deleting shopping cart
+if($stmt5 = $mysqli->prepare($deleteCartQuery)){
+    $stmt5->bind_param("i", $uid);
+        
+    $uid = $_SESSION["uid"];
+        
+    if($stmt5->execute()){
+        echo "SHOPPING_CARTS query performed successfully\r\n";
+
+    } else{
+        echo "ERROR: Could not execute query: $sql. " . $mysqli->error;
+        echo "Rollback performed";
+        $mysqli->rollback();
+    }
+} else{
+    echo "ERROR: Could not prepare query: $sql. " . $mysqli->error;
+    echo "Rollback performed";
+    $mysqli->rollback();
+}
+
 
 
 $stmt1->close();
 $stmt2->close();
 $stmt3->close();
+$stmt4->close();
+$stmt5->close();
 
 
 //All queries performed successfully. Committing
