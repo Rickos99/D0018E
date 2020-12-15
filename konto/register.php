@@ -22,10 +22,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_email = trim($_POST["email"]);
             
             if($stmt->execute()){
-                $stmt->store_result($res);
+                $stmt->store_result();
     
-                if($stmt->num_rows($res) == 1){
+                if($stmt->num_rows() >= 1){
                     $email_err = "This email is already taken.";
+                    echo "This email is already taken.";
                 } else{
                     $email = trim($_POST["email"]);
                 }

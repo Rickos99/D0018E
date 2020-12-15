@@ -41,7 +41,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if($stmt->execute()){
                 $stmt->store_result();
                 
-                if($stmt->num_rows == 1){
+                if($stmt->num_rows >= 1){
                     
                     $stmt->bind_result($full_name, $email, $hashed_password, $uid, $role);
                     
