@@ -49,7 +49,7 @@
                                 <input name="quantity" type="number" value="1" min="1" max="{{balance}}" step="1"
                                     class="form-control" placeholder="Antal" aria-describedby="button-addToCart">
                                 <div class="input-group-append">
-                                    <button type="submit" class="btn btn-outline-primary {{^balance}}disabled{{/balance}}"
+                                    <button type="submit" class="btn btn-outline-primary" {{^balance}}disabled{{/balance}}
                                         id="button-addToCart">
                                         Lägg i kundvagn
                                     </button>
