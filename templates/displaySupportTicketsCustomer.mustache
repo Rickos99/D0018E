@@ -1,0 +1,124 @@
+<html lang="sv">
+
+<head>
+    <title>Startsida</title>
+
+    {{> _head}}
+
+</head>
+
+<body>
+    {{> _navigation}}
+
+    <main class="container" style="max-width: 1000px;">
+        <div class="accordion mb-4" id="reviewAccordion">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+                            aria-expanded="true" aria-controls="collapseOne">
+                            Öppna ett nytt ärende
+                        </button>
+                    </h5>
+                </div>
+                <div id="collapseOne" class="collapse multi-collapse card-body">
+                    <form action="" method="post" autocomplete="off" lang="sv" spellcheck="true">
+                        <input type="hidden" name="action" value="addTicket">
+                        <div class="form-group">
+                            <label for="form_orderId">Ordernummer</label>
+                            <select name="order_id" id="form_orderId" class="form-control" required>
+                                <option value="" disabled hidden selected>Välj en order</option>
+                                {{#orders}}
+                                    <option value="{{.}}">{{.}}</option>
+                                {{/orders}}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="form_subject">Ämne</label>
+                            <input name="subject" id="form_subject" type="text" max="255" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="form_body">Detaljer</label>
+                            <textarea name="body" id="form_body" rows="5" maxlength="2000" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="form_isReturn">Ärendetyp</label>
+                            <select name="isReturn" id="form_isReturn" class="form-control" required>
+                                <option value="" disabled hidden selected>Välj en ärendetyp</option>
+                                <option value="1">Retur</option>
+                                <option value="0">Annat</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Spara</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <h2>Mina ärenden</h2>
+        {{#tickets}}
+            <div class="shadow-sm p-3 m-auto">
+                <div class="d-flex text-muted">
+                    <span class="mr-auto">Ärendeid: {{ticket_id}}</span>
+                    <span>{{created_at}}</span>
+                    <span class="mr-3 ml-3">|</span>
+                    <span>
+                        <span class="material-icons" style="font-size: unset;">comment</span>
+                        <span class="text-align-vc">{{responses}}</span>
+                    </span>
+                    <span class="mr-3 ml-3">|</span>
+                    {{#isResolved}}
+                    <span>
+                        <span class="material-icons text-success">check</span>
+                        <span class="text-align-vc">Avslutat</span>
+                    </span>
+                    {{/isResolved}}
+                    {{^isResolved}}
+                    <span>
+                        <span class="material-icons text-warning">hourglass_bottom</span>
+                        <span class="text-align-vc">Öppet</span>
+                    </span>
+                    {{/isResolved}}
+                </div>
+                <h4>{{subject}}</h4>
+                <p>{{body}}</p>
+                <a href="ticket.php?t={{ticket_id}}" class="btn btn-link">Detaljer</a>
+            </div>
+        {{/tickets}}
+        {{^tickets}}
+            <p>
+                Du har inte skapat något ärende ännu.
+            </p>
+        {{/tickets}}
+    </main>
+
+    
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+           console.log("DOM: loaded") 
+        });
+    </script>
+</body>
+
+</html>
