@@ -44,79 +44,10 @@ $deleteCartItemsQuery = "DELETE FROM CART_ITEMS WHERE cart_id = (SELECT cart_id 
 //Delete from SHOPPING_CARTS
 $deleteCartQuery = "DELETE FROM SHOPPING_CARTS WHERE uid = ?";
 
+$rollbackCheck= 0;
 
 //Begin the transaction
 $mysqli->begin_transaction();
-
-
-/*Retrieving an array of the product id's
-$piData = [];
-$pi = mysqli_query($mysqli, $retrieveID);
-
-if($pi){
-    while ($row1 = $pi->fetch_array()) {
-        $piData[] = $row1;
-    }
-}else{
-    echo "Retrieval of product id's failed";
-    echo "Rollback performed";
-    $mysqli->rollback();
-}
-*/
-
-
-/*Retreiving an array of the quantities
-$QData = [];
-$Q = mysqli_query($mysqli, $retrieveQuantity);
-
-if($Q){
-    while ($row2 = $Q->fetch_array()) {
-        $QData[] = $row2;
-    }
-}else {
-    echo "Retrieval of quantities failed";
-    echo "Rollback performed";
-    $mysqli->rollback();
-}
-*/
-
-/*Retrieving an array of cart quantities
-$cartData = [];
-$cart = mysqli_query($mysqli, $retrieveCartQuantity);
-
-if ($cart) {
-    while ($row3 = $cart->fetch_array()) {
-        $cartData[] = $row3;
-    }
-}else {
-    echo "Retrieval of cart quantities failed";
-    echo "Rollback performed";
-    $mysqli->rollback();
-}
-*/
-
-/*Safety check
-$piLength = count($pidata);
-$qLength = count($QData);
-
-if($piLength != $qLength){
-    echo "Product id and quantity not the same length";
-    echo "Rollback performed";
-    $mysqli->rollback();
-}
-*/ 
-
-/*Checking that all items are in stock
-$i = 0;
-while ($i < $piLength) {
-    if ($QData[$i] < $cartData[$i]) {
-        echo "Not enough items in stock";
-        echo "Rollback performed";
-        $mysqli->rollback();
-    }
-    $i = $i + 1;
-}
-*/
 
 
 //ORDERS Query
@@ -136,13 +67,11 @@ if($stmt1 = $mysqli->prepare($ordersQuery)){
 
     } else{
         echo "ERROR: Could not execute query: $sql. " . $mysqli->error;
-        echo "Rollback performed";
-        $mysqli->rollback();
+        $rollbackCheck = 1;
     }
 } else{
     echo "ERROR: Could not prepare query: $sql. " . $mysqli->error;
-    echo "Rollback performed";
-    $mysqli->rollback();
+    $rollbackCheck = 1;
 }
 
 
@@ -157,13 +86,11 @@ if($stmt2 = $mysqli->prepare($orderItemsQuery)){
 
     } else{
         echo "ERROR: Could not execute query: $sql. " . $mysqli->error;
-        echo "Rollback performed";
-        $mysqli->rollback();
+        $rollbackCheck = 1;
     }
 } else{
     echo "ERROR: Could not prepare query: $sql. " . $mysqli->error;
-    echo "Rollback performed";
-    $mysqli->rollback();
+    $rollbackCheck = 1;
 }
 
 //QUERY FOR updating stock quantity.
@@ -173,17 +100,15 @@ if($stmt3 = $mysqli->prepare($updateQuery)){
     $uid = $_SESSION['uid'];
         
     if($stmt3->execute()){
-        echo "Stock quantity query performed successfully\r\n"; //For debugging, mostly
+        echo "Stock quantity query performed successfully\r\n";
 
     } else{
         echo "ERROR: Could not execute query: $sql. " . $mysqli->error;
-        echo "Rollback performed";
-        $mysqli->rollback();
+        $rollbackCheck = 1;
     }
 } else{
     echo "ERROR: Could not prepare query: $sql. " . $mysqli->error;
-    echo "Rollback performed";
-    $mysqli->rollback();
+    $rollbackCheck = 1;
 }
 
 //Query for deleting cart items
@@ -197,13 +122,11 @@ if($stmt4 = $mysqli->prepare($deleteCartItemsQuery)){
 
     } else{
         echo "ERROR: Could not execute query: $sql. " . $mysqli->error;
-        echo "Rollback performed";
-        $mysqli->rollback();
+        $rollbackCheck = 1;
     }
 } else{
     echo "ERROR: Could not prepare query: $sql. " . $mysqli->error;
-    echo "Rollback performed";
-    $mysqli->rollback();
+    $rollbackCheck = 1;
 }
 
 //Query for deleting shopping cart
@@ -217,13 +140,11 @@ if($stmt5 = $mysqli->prepare($deleteCartQuery)){
 
     } else{
         echo "ERROR: Could not execute query: $sql. " . $mysqli->error;
-        echo "Rollback performed";
-        $mysqli->rollback();
+        $rollbackCheck = 1;
     }
 } else{
     echo "ERROR: Could not prepare query: $sql. " . $mysqli->error;
-    echo "Rollback performed";
-    $mysqli->rollback();
+    $rollbackCheck = 1;
 }
 
 
@@ -234,12 +155,16 @@ $stmt3->close();
 $stmt4->close();
 $stmt5->close();
 
+//Check if rollback will be performed
+if ($rollbackCheck == 1) {
+    echo "Rollback performed";
+    $mysqli->rollback();
+}
+
 
 //All queries performed successfully. Committing
 $mysqli->commit();
 
-
-echo "TEST: Reached the end of php code";
  
 $mysqli->close();
 ?>
