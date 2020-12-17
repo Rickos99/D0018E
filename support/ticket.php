@@ -2,6 +2,7 @@
 
 include "../php/debugSettings.php";
 require_once "../php/sql/addSupportTicket.php";
+require_once "../php/sql/getOrdersFromUserId.php";
 require_once "../php/sql/addSupportTicketResponse.php";
 require_once "../php/sql/getOwnerOfSupportTicket.php";
 require_once "../php/sql/getSupportTicket.php";
@@ -76,7 +77,7 @@ if(!empty($ticketId)){
 } else {
     renderTemplate("displaySupportTicketsCustomer", [
         "user" => $user,
-        "orders" => [20, 22],
+        "orders" => getOrdersFromUserId($user->uid),
         "tickets" => getSupportTickets($user->uid)
     ]);
 }
