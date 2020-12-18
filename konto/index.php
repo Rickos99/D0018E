@@ -17,21 +17,11 @@ $mysqli = getDBConnection();
 	<h1>Konto - Home</h1>
 </header>
 
-<a href="editaccount.php">
-<article class="leftbox">
-	<div class="center">
-		Edit account information
-	</div>
-</article>
-</a>
-
-<a href="editpassword.php">
-<article class="midbox">
-	<div class="center">
-		Edit password
-	</div>	
-</article>
-</a>
+<main>
+	<a href="editaccount.php" class="leftbox center">Edit account information</a>
+	<a href="editpassword.php" class="leftbox center">Edit password</a>
+	<a href="orders.php" class="leftbox center">Orderhistorik</a>
+</main>
 
 </body>
 </html>
