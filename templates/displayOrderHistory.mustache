@@ -1,0 +1,107 @@
+<html lang="sv">
+
+<header>
+    <title>Startsida</title>
+
+    {{> _head}}
+
+</header>
+
+<body>
+    {{> _navigation}}
+
+    <main class="container">
+        <h2>Orderhistorik</h2>
+        {{#orders}}
+        <div class="shadow-sm p-3 m-auto order-container" id="order-details-container-for-{{order_id}}">
+            <div class="d-flex text-muted">
+                <span class="mr-auto">OrderId: {{order_id}}</span>
+                <span>{{created_at}}</span>
+                <span class="mx-3">|</span>
+                <span>{{status}}</span>
+            </div>
+            <button class="btn btn-link btn-order-details" type="button" data-order-target="{{order_id}}">Detaljer</button>
+            <div class="collapse container m-2 order-details" id="details-{{order_id}}">
+                <h4>Orderinformation</h4>
+                <div class="mb-3">
+                    <div>
+                        <b>Namn: </b>
+                        <span>{{full_name}}</span>
+                    </div>
+                    <div>
+                        <b>E-post: </b>
+                        <span>{{email}}</span>
+                    </div>
+                    <div>
+                        <b>Adress: </b>
+                        <span>{{address}}</span>
+                    </div>
+                    <div>
+                        <b>Telefon: </b>
+                        <span>{{phone}}</span>
+                    </div>
+                </div>
+
+                <h4>Produkter</h4>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Artnr.</th>
+                            <th scope="col">Namn</th>
+                            <th scope="col">à-pris</th>
+                            <th scope="col">Rabatt</th>
+                            <th scope="col">Antal</th>
+                            <th scope="col">Totalt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#products}}
+                            <tr>
+                                <td>{{product_id}}</td>
+                                <td><a href="/p.php?pid={{product_id}}">{{name}}</a></td>
+                                <td>{{unitPrice}} kr</td>
+                                <td>{{discount}}</td>
+                                <td>{{quantity}}</td>
+                                <td>{{total}} kr</td>
+                            </tr>
+                        {{/products}}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><b>{{totalPriceWithVat}} kr</b></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        {{/orders}}
+        {{^orders}}
+            <p>Du har inte gjort några beställningar ännu</p>
+        {{/orders}}
+    </main>
+    <script>
+        $(document).ready(function(){
+            attacheEvListenerForDetailsButtons();
+        });
+
+        function attacheEvListenerForDetailsButtons() {
+            $(".btn-order-details").click((ev) => {
+                const orderId = $(ev.target).attr("data-order-target");
+                const orderWasHidden = $(`#details-${orderId}`).is(":hidden");
+                $(".order-details").collapse('hide');
+                $(".order-container").removeClass("shadow-lg");
+                if(orderWasHidden){
+                    $(`#order-details-container-for-${orderId}`).addClass("shadow-lg");
+                    $(`#details-${orderId}`).collapse('show');
+                } else {
+                    $(`#details-${orderId}`).collapse('hide');
+                }
+            });
+        }
+    </script>
+</body>
