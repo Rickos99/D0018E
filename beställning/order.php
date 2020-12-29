@@ -176,10 +176,8 @@ $mysqli->close();
     <title>ORDER - Results</title>
 </head>
 <body>
-    <article>
-    <form action="http://130.240.200.54" method="post">
-        <input type="submit" name="Submit" value="Return to Home">
-    </form>
-    </article>
+    <div class="container">
+        <a href="/" class="button-green">Return to home</a>
+    </div>
 </body>
 </html>

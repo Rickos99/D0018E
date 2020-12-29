@@ -30,7 +30,7 @@ input[type=text]:focus {
   font-size: 20px;
 }
 
-article {
+article, .container {
 	font-size: 20px;
 	height: 300px;
 	width: 35%;
@@ -61,7 +61,7 @@ body {
 
 }
 
-input[type=button], input[type=submit], input[type=reset] {
+input[type=button], input[type=submit], input[type=reset], .button-green {
   background-color: teal;
   border: 2px solid teal;
   border-radius: 4px;
