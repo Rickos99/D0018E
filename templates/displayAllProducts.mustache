@@ -16,47 +16,58 @@
             <div class="d-flex flex-wrap justify-content-center">
                 {{#products}}
                 <div class="card m-1" style="width: 16rem;">
-                    <img src="https://via.placeholder.com/280" srcset="http://via.placeholder.com/280" class="card-img-top" alt="img/{{prod_id}}.png">
-                    <div class="card-body">
-                        <a href="p.php?pid={{prod_id}}" class="text-body">
-                            <h5 class="card-title">{{name}}</h5>
-                        </a>
-                        <p class="card-text">{{priceInclVat}} kr</p>
-                        <p class="card-text">
-                            {{#rating}}
-                                <span class="material-icons text-gold">star_rate</span>
-                                <span class="text-align-vc">{{rating}}</span>
-                                <span class="text-muted text-align-vc">({{ratings}})</span>
-                            {{/rating}}
-                            {{^rating}}
-                                <span class="material-icons text-black-50">star_rate</span>
-                                <span class="text-muted text-align-vc">0</span>
-                            {{/rating}}
-                        </p>
-                        <div class="card-text">
-                            {{#balance}}
-                            <span class="material-icons text-success">all_inbox</span>
-                            {{/balance}}
-                            {{^balance}}
-                            <span class="material-icons text-danger">all_inbox</span>
-                            {{/balance}}
+                    {{#user.loggedIn}}
+                        <form action="/konto/wishlist.php" method="POST" autocomplete="off" style="position: absolute; right: 0;">
+                            <input type="hidden" name="action" value="PUT">
+                            <input type="hidden" name="pid" value="{{prod_id}}">
+                            <button class="btn btn-light btn-sm float-right" type="submit">
+                                <span class="material-icons text-danger p-1">favorite_outline</span>
+                            </button>
+                        </form>
+                    {{/user.loggedIn}}
+                    <div>
+                        <img src="https://via.placeholder.com/280" srcset="http://via.placeholder.com/280" class="card-img-top" alt="img/{{prod_id}}.png">
+                        <div class="card-body">
+                            <a href="p.php?pid={{prod_id}}" class="text-body">
+                                <h5 class="card-title">{{name}}</h5>
+                            </a>
+                            <p class="card-text">{{priceInclVat}} kr</p>
+                            <p class="card-text">
+                                {{#rating}}
+                                    <span class="material-icons text-gold">star_rate</span>
+                                    <span class="text-align-vc">{{rating}}</span>
+                                    <span class="text-muted text-align-vc">({{ratings}})</span>
+                                {{/rating}}
+                                {{^rating}}
+                                    <span class="material-icons text-black-50">star_rate</span>
+                                    <span class="text-muted text-align-vc">0</span>
+                                {{/rating}}
+                            </p>
+                            <div class="card-text">
+                                {{#balance}}
+                                <span class="material-icons text-success">all_inbox</span>
+                                {{/balance}}
+                                {{^balance}}
+                                <span class="material-icons text-danger">all_inbox</span>
+                                {{/balance}}
 
-                            <span class="text-align-vc">{{balance}} kvar</span>
-                            {{#user.loggedIn}}
-                                <form action="/beställning/cart.php" method="POST" style="display: inline;">
-                                    <input type="hidden" value="PUT" name="action">
-                                    <input type="hidden" value="{{prod_id}}" name="pid">
-                                    <input type="hidden" value="1" name="quantity">
-                                    <button type="submit"
-                                        class="btn btn-outline-primary btn-sm float-right" {{^balance}}disabled{{/balance}}>Lägg
-                                        i kundvagn</button>
-                                </form>
-                            {{/user.loggedIn}}
-                            {{^user.loggedIn}}
-                                <button tabindex="0" class="btn btn-outline-primary btn-sm btn-add-to-cart {{^balance}}disabled{{/balance}}" 
-                                    role="button" data-toggle="popover" data-trigger="focus" title="" 
-                                    data-content="Du måste logga in eller registrera dig för att lägga produkter i kundvagnen">Lägg i kundvagn</button>
-                            {{/user.loggedIn}}
+                                <span class="text-align-vc">{{balance}} kvar</span>
+                                {{#user.loggedIn}}
+                                    <form action="/beställning/cart.php" method="POST" style="display: inline;">
+                                        <input type="hidden" value="PUT" name="action">
+                                        <input type="hidden" value="{{prod_id}}" name="pid">
+                                        <input type="hidden" value="1" name="quantity">
+                                        <button type="submit"
+                                            class="btn btn-outline-primary btn-sm float-right" {{^balance}}disabled{{/balance}}>Lägg
+                                            i kundvagn</button>
+                                    </form>
+                                {{/user.loggedIn}}
+                                {{^user.loggedIn}}
+                                    <button tabindex="0" class="btn btn-outline-primary btn-sm btn-add-to-cart {{^balance}}disabled{{/balance}}" 
+                                        role="button" data-toggle="popover" data-trigger="focus" title="" 
+                                        data-content="Du måste logga in eller registrera dig för att lägga produkter i kundvagnen">Lägg i kundvagn</button>
+                                {{/user.loggedIn}}
+                            </div>
                         </div>
                     </div>
                 </div>

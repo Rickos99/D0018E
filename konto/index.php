@@ -20,7 +20,8 @@ $mysqli = getDBConnection();
 <main>
 	<a href="editaccount.php" class="leftbox center">Edit account information</a>
 	<a href="editpassword.php" class="leftbox center">Edit password</a>
-	<a href="orders.php" class="leftbox center">Orderhistorik</a>
+	<a href="orders.php" class="leftbox center">Previous Orders</a>
+	<a href="wishlist.php" class="leftbox center">My Wishlist</a>
 </main>
 
 </body>

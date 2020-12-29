@@ -72,14 +72,25 @@
                         </div>
                     {{/user.loggedIn}}
                 </div>
-                <div>
-                    {{#balance}}
-                    <span class="material-icons text-success">all_inbox</span>
-                    {{/balance}}
-                    {{^balance}}
-                    <span class="material-icons text-danger">all_inbox</span>
-                    {{/balance}}
-                    <span class="text-align-vc">{{balance}} kvar</span>
+                <div class="d-flex">
+                    <div>
+                        {{#balance}}
+                            <span class="material-icons text-success">all_inbox</span>
+                        {{/balance}}
+                        {{^balance}}
+                            <span class="material-icons text-danger">all_inbox</span>
+                        {{/balance}}
+                        <span class="text-align-vc">{{balance}} kvar</span>
+                    </div>
+
+                    <form action="/konto/wishlist.php" method="POST" autocomplete="off" class="ml-auto">
+                        <input type="hidden" name="action" value="PUT">
+                        <input type="hidden" name="pid" value="{{prod_id}}">
+                        <button class="btn btn-light btn-sm" type="submit">
+                            <span class="material-icons p-1 text-danger">favorite_outline</span>
+                            Lägg till önskelista
+                        </button>
+                    </form>
                 </div>
                 <hr>
                 <p class="text-wrap">{{description}}</p>
