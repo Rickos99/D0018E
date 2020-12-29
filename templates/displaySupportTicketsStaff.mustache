@@ -1,0 +1,94 @@
+<html lang="sv">
+
+<head>
+    <title>Startsida</title>
+
+    {{> _head}}
+
+</head>
+
+<body>
+    {{> _navigation}}
+
+    <main class="container" style="max-width: 1000px;">
+        <h2>Alla Supportärenden</h2>
+        {{#tickets}}
+            <div class="shadow-sm p-3 m-auto border border-light border-bottom-0 support-ticket">
+                <div class="d-flex flex-column flex-sm-row">
+                    <div>
+                        <h4 class="d-inline-block">
+                            {{subject}}
+                            <small class="text-muted ml-1">#{{ticket_id}}</small>
+                        </h4>
+                        {{#isResolved}}
+                            {{#isReturn}}
+                                <span class="material-icons text-success" style="vertical-align: sub;" 
+                                    title="Avslutat returärende" data-toggle="tooltip" data-placement="top">local_shipping</span>
+                            {{/isReturn}}
+                            {{^isReturn}}
+                                <span class="material-icons text-success" style="vertical-align: sub;" 
+                                    title="Avslutat supportärende" data-toggle="tooltip" data-placement="top">check</span>
+                            {{/isReturn}}
+                        {{/isResolved}}
+                        {{^isResolved}}
+                            {{#isReturn}}
+                                <span class="material-icons text-warning" style="vertical-align: sub;" 
+                                    title="Öppet returärende" data-toggle="tooltip" data-placement="top">local_shipping</span>
+                            {{/isReturn}}
+                            {{^isReturn}}
+                                <span class="material-icons text-warning" style="vertical-align: sub;" 
+                                    title="Öppet supportärende" data-toggle="tooltip" data-placement="top">hourglass_bottom</span>
+                            {{/isReturn}}
+                        {{/isResolved}}
+                    </div>
+                    <div class="ml-0 ml-sm-auto">
+                        <span>
+                            {{#last_updated}}
+                                Ändrades för {{# fnTimeSince }}{{ last_updated }}{{/ fnTimeSince }} sedan
+                            {{/last_updated}}
+                            {{^last_updated}}
+                                Skapades för {{# fnTimeSince }}{{ created_at }}{{/ fnTimeSince }} sedan
+                            {{/last_updated}}
+                        </span>
+                        <span class="mr-3 ml-3">|</span>
+                        <span>
+                            <span class="material-icons" style="font-size: unset;">comment</span>
+                            <span class="text-align-vc">{{responses}}</span>
+                        </span>
+                    </div>
+                </div>
+                <p>{{body}}</p>
+                <a href="ticket.php?t={{ticket_id}}" class="text-decoration-none">Visa</a>
+            </div>
+        {{/tickets}}
+        {{^tickets}}
+            <p>
+                Det finns inga supportärenden att visa.
+            </p>
+        {{/tickets}}
+    </main>
+
+    
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

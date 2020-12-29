@@ -11,20 +11,21 @@ require_once "../php/sql/updateSupportTicketStatus.php";
 require_once "../php/renderTemplate.php";
 require_once "../php/userSession.php";
 
+include_once "../php/mustacheHelpers.php";
+
 $user = new userSession(true, [0, 1]);
 $user->isSupportStaff = $user->role === 1 ? true : false;
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
+    $ticketId = intval($_POST['ticketId']);
     if($_POST['action'] === 'closeTicket' && $user->role === 1){
-        $ticketId = intval($_POST['ticketId']);
-        if(!updateSupportTicketStatus($ticketId, 1)){
+        if(!updateSupportTicketStatus($ticketId, 1, $user->uid)){
             die("ERROR: The ticket status could not be updated");
         } 
 
     } else if($_POST['action'] === 'openTicket' && $user->role === 1){
-        $ticketId = intval($_POST['ticketId']);
-        if(!updateSupportTicketStatus($ticketId, 0)){
+        if(!updateSupportTicketStatus($ticketId, 0, $user->uid)){
             die("ERROR: The ticket status could not be updated");
         }
 
@@ -73,6 +74,12 @@ if(!empty($ticketId)){
     renderTemplate("displaySupportTicketDetails", [
         "user" => $user,
         "ticket" => $ticket
+    ]);
+} else if($user->role === 1) {
+    renderTemplate("displaySupportTicketsStaff", [
+        "user" => $user,
+        "tickets" => getSupportTickets(),
+        "fnTimeSince" => $fnTimeSinceShort
     ]);
 } else {
     renderTemplate("displaySupportTicketsCustomer", [
