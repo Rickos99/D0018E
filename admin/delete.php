@@ -1,9 +1,10 @@
 <?php
 
+require_once "../php/sql/db.conn.php";
 require_once "../php/userSession.php";
 $user = new userSession(true, [2]);
 
-$mysqli = new mysqli("127.0.0.1", "grupp16", "grupp16", "STORE");
+$mysqli = getDBConnection();
  
 if($mysqli === false){
     die("ERROR: Could not connect. " . $mysqli->connect_error);

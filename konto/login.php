@@ -1,5 +1,7 @@
 <?php
- 
+
+require_once "../php/sql/db.conn.php";
+
 session_start();
 
 $returnUrl = "/";
@@ -12,7 +14,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin" === true]){
     exit;
 }
 
-$mysqli = new mysqli("127.0.0.1", "grupp16", "grupp16", "STORE");
+$mysqli = getDBConnection();
 $mysqli->set_charset("utf8");
 $email = $password = "";
 $email_err = $password_err = "";

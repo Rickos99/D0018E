@@ -1,11 +1,13 @@
 <?php
 
+require_once "../php/sql/db.conn.php";
+
 $returnUrl = "/";
 if(!empty($_GET["returnUrl"])){
     $returnUrl = $_GET["returnUrl"];
 }
 
-$mysqli = new mysqli("127.0.0.1", "grupp16", "grupp16", "STORE");
+$mysqli = getDBConnection();
 $mysqli->set_charset("utf8");
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
