@@ -88,3 +88,11 @@ CREATE TABLE `TICKET_RESPONSES` (
     FOREIGN KEY (user_id) REFERENCES USERS(uid),
     INDEX (ticket_id)
 );
+
+CREATE TABLE `WISHLIST_ITEMS` (
+    `uid` int UNSIGNED NOT NULL,
+    `pid` int UNSIGNED NOT NULL,
+    FOREIGN KEY (uid) REFERENCES USERS(uid),
+    FOREIGN KEY (pid) REFERENCES PRODUCTS(prod_id),
+    PRIMARY KEY (uid, pid)
+);
