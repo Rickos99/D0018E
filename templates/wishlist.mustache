@@ -1,0 +1,65 @@
+<html lang="sv">
+
+<header>
+    <title>Min önskelista</title>
+
+    {{> _head}}
+
+</header>
+
+<body>
+    {{> _navigation}}
+
+    <main class="container">
+        <div class="d-flex flex-wrap justify-content-center">
+            {{#wishlist}}
+            <div class="card m-1" style="width: 16rem;">
+                <form action="" method="POST" autocomplete="off" style="position: absolute; right: 0;">
+                    <input type="hidden" name="action" value="DELETE">
+                    <input type="hidden" name="pid" value="{{pid}}">
+                    <button class="btn btn-light btn-sm float-right" type="submit">
+                        <span class="material-icons text-muted p-1">delete</span>
+                    </button>
+                </form>
+                <div>
+                    <img src="https://via.placeholder.com/280" srcset="http://via.placeholder.com/280" class="card-img-top" alt="img/{{pid}}.png">
+                    <div class="card-body">
+                        <a href="/p.php?pid={{pid}}" class="text-body">
+                            <h5 class="card-title">{{product_name}}</h5>
+                        </a>
+                        <p class="card-text">{{priceWithVat}} kr</p>
+                        <div class="card-text">
+                            {{#balance}}
+                            <span class="material-icons text-success">all_inbox</span>
+                            {{/balance}}
+                            {{^balance}}
+                            <span class="material-icons text-danger">all_inbox</span>
+                            {{/balance}}
+
+                            <span class="text-align-vc">{{balance}} kvar</span>
+                            <form action="/beställning/cart.php" method="POST" style="display: inline;">
+                                <input type="hidden" value="PUT" name="action">
+                                <input type="hidden" value="{{pid}}" name="pid">
+                                <input type="hidden" value="1" name="quantity">
+                                <button type="submit" class="btn btn-outline-primary btn-sm float-right" {{^balance}}disabled{{/balance}}>
+                                    Lägg i kundvagn
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/wishlist}}
+            {{^wishlist}}
+            <div>
+                <h4>Här var det tomt.</h4>
+                <p class="text-muted">
+                    Tips: Du kan klicka på <span class="material-icons btn btn-sm btn-light">favorite_border</span> knappen när du ser något du gillar för att önska dig den.
+                </p>
+            </div>
+            {{/wishlist}}
+        </div>
+    </main>
+</body>
+
+</html>
