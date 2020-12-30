@@ -37,7 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             header("HTTP/1.1 400 Bad Request");
             exit();
     }
-    header("location: ".$_SERVER['REQUEST_URI']);
+    if (isset($_SERVER["HTTP_REFERER"])) {
+        header("location: ".$_SERVER["HTTP_REFERER"]."#p$pid");
+    } else {
+        header("location: ".$_SERVER['REQUEST_URI']);
+    }
     exit();
 } else {
     renderTemplate("wishlist", [
