@@ -33,20 +33,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST' && $user->loggedIn){
 }
 
 if(isset($productID) && $productID > 0){
-    $product = getProduct($productID);
+    $uid = $user->loggedIn ? $user->uid : -1;
+    $product = getProduct($productID, $uid);
 }
 
 if($user->loggedIn && !$_POST){
     $userReview = getProductReview($user->uid, $productID);
 }
 
-$context = array(
+renderTemplate('displayProduct', [
     "product" => $product, 
     "user" => $user,
     "userReview" => $userReview,
     "formMessage" => $formMessage,
     "fnOutputStars" => $fnOutputStars,
     "fnTimeSince" => $fnTimeSince
-);
-
-renderTemplate('displayProduct', $context);
+]);

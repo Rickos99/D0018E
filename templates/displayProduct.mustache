@@ -82,15 +82,25 @@
                         {{/balance}}
                         <span class="text-align-vc">{{balance}} kvar</span>
                     </div>
-
-                    <form action="/konto/wishlist.php" method="POST" autocomplete="off" class="ml-auto">
-                        <input type="hidden" name="action" value="PUT">
-                        <input type="hidden" name="pid" value="{{prod_id}}">
-                        <button class="btn btn-light btn-sm" type="submit">
-                            <span class="material-icons p-1 text-danger">favorite_outline</span>
-                            Lägg till önskelista
-                        </button>
-                    </form>
+                    {{#user.loggedIn}}
+                        <form action="/konto/wishlist.php" method="POST" autocomplete="off" class="ml-auto">
+                            <input type="hidden" name="pid" value="{{prod_id}}">
+                            {{#onWishlist}}
+                                <input type="hidden" name="action" value="DELETE">
+                                <button class="btn btn-light btn-sm float-right" type="submit">
+                                    <span class="material-icons text-danger p-1">favorite</span>
+                                    Ta bort från önskelista
+                                </button>
+                            {{/onWishlist}}
+                            {{^onWishlist}}
+                                <input type="hidden" name="action" value="PUT">
+                                <button class="btn btn-light btn-sm float-right" type="submit">
+                                    <span class="material-icons text-danger p-1">favorite_outline</span>
+                                    Lägg till önskelista
+                                </button>
+                            {{/onWishlist}}
+                        </form>
+                    {{/user.loggedIn}}
                 </div>
                 <hr>
                 <p class="text-wrap">{{description}}</p>
