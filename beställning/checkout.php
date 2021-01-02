@@ -46,7 +46,7 @@ $s = mysqli_query($mysqli, $userQuery);
 
 $userRow = $s->fetch_row();
 
-
+$totalPrice = 0;
 
 ?>
 <html>
@@ -69,16 +69,22 @@ $userRow = $s->fetch_row();
     </tr>
 <?php
 foreach($values as $v){
+    $i = $v['price'] * $v['quantity'];
+    $totalPrice = $totalPrice + $i; //Adds up the total price
     echo '
     <tr>
         <td>'.$v['name'].'</td>
-        <td>'.$v['price'].'</td>
-        <td>'.$v['quantity'].'</td>
+        <td>'.$v['price'].' kr</td>
+        <td>'.$v['quantity'].' st</td>
     </tr>
     ';
 }
 ?>
-</table> 
+</table>
+    <h2>Total Price: <?php
+        echo $totalPrice;
+    ?> kr
+    </h2>
 </article>
 
 <article class="right">
