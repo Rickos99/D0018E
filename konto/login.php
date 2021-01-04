@@ -15,7 +15,7 @@ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin" === true]){
 }
 
 $mysqli = getDBConnection();
-$mysqli->set_charset("utf8");
+
 $email = $password = "";
 $email_err = $password_err = "";
 
