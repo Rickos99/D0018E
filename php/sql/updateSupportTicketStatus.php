@@ -13,6 +13,7 @@ function updateSupportTicketStatus(int $ticketId, int $closeTicket, int $uid) : 
     $msg = $closeTicket === 1 ? "Supportärendet är nu avslutat." : "Supportärendet är nu öppnat.";
 
     $sqlSucces = true;
+    $mysqli->begin_transaction();
     try {
         $stmt = $mysqli->prepare($sqlUpdateStatus);
         $stmt->bind_param("ii", $closeTicket, $ticketId);
